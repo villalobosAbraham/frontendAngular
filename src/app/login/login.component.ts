@@ -34,23 +34,18 @@ export class LoginComponent {
   ngOnInit() {
     console.log(this.router.url);
     // Verifica si ya estás en la ruta '/login'
-    if (this.router.url === '/login/') {
-      console.log(this.router.url)
-      return;
-    } else {
-      this.apiService.post('LOGComprobarUsuario/').subscribe(
-        (response) => {
-          this.respuesta = response as boolean;
-          if (this.respuesta) {
-            console.log("XD");
-          } else {
-            // this.router.navigate(['/login'])
-          }
-        },
-        (error) => {
+    this.apiService.post('LOGComprobarUsuario/').subscribe(
+      (response) => {
+        this.respuesta = response as boolean;
+        if (this.respuesta) {
+          console.log("XD");
+        } else {
+          // this.router.navigate(['/login'])
         }
-      );
-    }
+      },
+      (error) => {
+      }
+    );
   }
 
   iniciarSesion() {
