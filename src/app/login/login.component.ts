@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
 import { SweetAlertService } from '../services/sweet-alert.service';
+import { AlmacenamientoLocalService } from '../services/almacenamiento-local.service';
 
 interface Valores {
   correo: string;
@@ -19,7 +20,7 @@ interface DatosGenerales {
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  constructor(private apiService: ApiService, private router: Router, private sweetAlert : SweetAlertService) {}
+  constructor(private apiService: ApiService, private router: Router, private sweetAlert : SweetAlertService, private AlmacenamientoLocalService : AlmacenamientoLocalService) {}
   @ViewChild('correo') correo!: ElementRef<HTMLInputElement>;
   @ViewChild('contraseña') contraseña!: ElementRef<HTMLInputElement>;
   valores : Valores = {
@@ -33,18 +34,18 @@ export class LoginComponent {
   fechaActual = new Date().getFullYear();
   
   ngOnInit() {
-    // Verifica si ya estás en la ruta '/login'
-    this.apiService.post('LOGComprobarUsuario/').subscribe(
-      (response) => {
-        this.respuesta = response as boolean;
-        if (this.respuesta) {
-          this.router.navigate(['/principal']);
-        } 
-      },
-      (error) => {
-      }
-    );
+    let almacenamientoLocal = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
+    if (!almacenamientoLocal) {
+      return;
+    }
+    almacenamientoLocal = this.AlmacenamientoLocalService.actualizarToken(almacenamientoLocal);
+    if (!almacenamientoLocal) {
+      return;
+    }
+
+    this.iniciarSesionTokens(almacenamientoLocal);
   }
+
 
   iniciarSesion() {
     this.valores.correo = this.correo.nativeElement.value;
@@ -56,12 +57,35 @@ export class LoginComponent {
         if (typeof response === 'boolean') {
           this.sweetAlert.mensajeError("Usuario Invalido");
         } else {
-          localStorage.setItem('clave', JSON.stringify(response)); // Para objetos
+          this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', response); // Para objetos
           this.router.navigate(['/principal']);
         }
       },
       (error) => {
+        this.sweetAlert.mensajeError("Fallo al Iniciar Sesión");
       }
     );
   }
+
+  iniciarSesionTokens(almacenamientoLocal : any) {
+    this.valores.correo = almacenamientoLocal["correo"]
+    this.valores.contraseña = almacenamientoLocal["contraseña"];
+    this.datosGenerales.datosGenerales = this.valores;
+
+    this.apiService.post('LOGIniciarSesion/', this.datosGenerales).subscribe(
+      (response) => {
+        if (typeof response === 'boolean') {
+          return;
+        } else {
+          this.AlmacenamientoLocalService.eliminarAlmacenamientoLocal("clave"); 
+          this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', response); // Para objetos
+          this.router.navigate(['/principal']);
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
 }

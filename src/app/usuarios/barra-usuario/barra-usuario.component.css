@@ -1,0 +1,125 @@
+ul.barra {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #1B4F72;
+    overflow: hidden;
+    position: fixed; 
+    top: 0; 
+    width: 100%; 
+    z-index: 1000; 
+  }
+  
+  ul.barra li {
+    float: left;
+  }
+  
+  ul.barra li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  ul.barra li a:hover {
+    background-color: #111;
+  }
+  
+  
+  ul.barra li.align-right {
+    float: right;
+  }
+  
+    
+  .modalUsuario {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    overflow: scroll; /* Oculta la barra de desplazamiento */
+    background-color: rgba(0,0,0,0.4);
+  }
+  
+  .contenidoModalUsuario {
+    text-align: center;
+    float: none;
+    background-color: #fefefe;
+    margin: 10px auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  #tituloModalUsuario {
+    width: 100%;
+  }
+  
+  .headerModal {
+    width: 100%;
+    background-color: #1B4F72;
+    border-radius: 15px;
+  }
+  
+  .bodyModal {
+    /* margin-top: 10px; */
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .input-control {
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #555555;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    outline: none;
+  }
+  
+  .footerModal {
+    border-top: 1px solid #111;
+    padding-top: 10px;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .botonFooterModalUsuario {
+    background-color: #1B4F72;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    float: right;
+    
+  }
+  
+  #tituloModalUsuario {
+    color: white;
+  }
+  
+  .label-modal {
+    width: 30%;
+    max-width: 30%;
+  }
+  
+  .input-modal {
+    margin-left: 5%;
+    width: 65%;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  #guardarInformacionUsuario {
+    margin-right: 5px;
+  }

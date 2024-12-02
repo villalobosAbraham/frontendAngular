@@ -44,4 +44,38 @@ export class AlmacenamientoLocalService {
   limpiarAlmacenamientoLocal() {
     localStorage.clear();
   }
+
+  actualizarToken(token : any) {
+    if (!token || !this.validarToken(token)) {
+      return false;
+    }
+    token["expiracion"] = this.crearHoraExpiracion();
+
+    return token;
+  }
+
+  validarToken(token : any) {
+    if (!token) {
+      return false;
+    }
+    let fechaToken = new Date(token["expiracion"]);
+    let fechaActual = new Date();
+
+    if (fechaActual > fechaToken) {
+      return false;
+    }
+
+    return true;
+  }
+
+  crearHoraExpiracion() {
+    // Obtener la fecha y hora actual
+    let horaExpiracion = new Date();
+
+    // Sumar 3 horas
+    horaExpiracion.setHours(horaExpiracion.getHours() + 3);
+
+    // Retornar la nueva fecha
+    return horaExpiracion;
+  }
 }

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
+import { BarraUsuarioComponent } from '../barra-usuario/barra-usuario.component';
 
 @Component({
   selector: 'app-principal',
-  imports: [],
+  imports: [BarraUsuarioComponent],
   templateUrl: './principal.component.html',
   styleUrl: './principal.component.css'
 })
