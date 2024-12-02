@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import { Router } from '@angular/router';
+import { SweetAlertService } from '../services/sweet-alert.service';
 
 interface Valores {
   correo: string;
@@ -18,7 +19,7 @@ interface DatosGenerales {
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(private apiService: ApiService, private router: Router, private sweetAlert : SweetAlertService) {}
   @ViewChild('correo') correo!: ElementRef<HTMLInputElement>;
   @ViewChild('contraseña') contraseña!: ElementRef<HTMLInputElement>;
   valores : Valores = {
@@ -32,16 +33,13 @@ export class LoginComponent {
   fechaActual = new Date().getFullYear();
   
   ngOnInit() {
-    console.log(this.router.url);
     // Verifica si ya estás en la ruta '/login'
     this.apiService.post('LOGComprobarUsuario/').subscribe(
       (response) => {
         this.respuesta = response as boolean;
         if (this.respuesta) {
-          console.log("XD");
-        } else {
-          // this.router.navigate(['/login'])
-        }
+          this.router.navigate(['/principal']);
+        } 
       },
       (error) => {
       }
@@ -55,11 +53,11 @@ export class LoginComponent {
     
     this.apiService.post('LOGIniciarSesion/', this.datosGenerales).subscribe(
       (response) => {
-        this.respuesta = response as boolean;
-        if (this.respuesta) {
-          console.log("Awebo Inicie Sesion");
+        if (typeof response === 'boolean') {
+          this.sweetAlert.mensajeError("Usuario Invalido");
         } else {
-          console.log("Vale Pito");
+          localStorage.setItem('clave', JSON.stringify(response)); // Para objetos
+          this.router.navigate(['/principal']);
         }
       },
       (error) => {
