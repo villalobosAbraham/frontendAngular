@@ -1,7 +1,7 @@
 <ul class="barra">
-    <li><a href="../Vistas/principal.php">Inicio <i class="fa fa-home"></i></a></li>
+    <li><a [href]="irInicio">Inicio <i class="fa fa-home"></i></a></li>
     <li><a id="linkCompras" href="../Vistas/compras.php">Mis Compras <i id="iconoCompras" class="fa fa-book"></i></a></li>
-    <li class="align-right"><a onclick="cerrarSesion();"><i class="fa fa-sign-out"></i> Cerrar Sesion</a></li>
-    <li class="align-right"><a id="linkCarrito" href="../Vistas/carrito.php"><i id="iconoCarrito" class="fa fa-shopping-cart"></i> Carrito</a></li>
-    <li id="barraUsuario" class="align-right"><a onclick="abrirModalUsuario();"><i class="fa fa-user-circle" id="iconoUsuario"></i></a></li>
+    <li class="align-right"><a (click)="cerrarSesion()"><i class="fa fa-sign-out"></i> Cerrar Sesion</a></li>
+    <li class="align-right"><a id="linkCarrito" href="../Vistas/carrito.php"><i id="iconoCarrito" class="fa fa-shopping-cart"> {{carrito}}</i> Carrito</a></li>
+    <li id="barraUsuario" class="align-right"><a onclick="abrirModalUsuario();"><i class="fa fa-user-circle" id="iconoUsuario"> {{nombreUsuarioBarra}}</i></a></li>
 </ul>

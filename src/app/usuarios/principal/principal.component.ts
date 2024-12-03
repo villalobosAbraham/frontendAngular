@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
 import { BarraUsuarioComponent } from '../barra-usuario/barra-usuario.component';
+import { AlmacenamientoLocalService } from '../../services/almacenamiento-local.service';
 
 @Component({
   selector: 'app-principal',
@@ -10,13 +11,19 @@ import { BarraUsuarioComponent } from '../barra-usuario/barra-usuario.component'
   styleUrl: './principal.component.css'
 })
 export class PrincipalComponent {
-  constructor(private router : Router, private sweetAlert : SweetAlertService) {};
+  constructor(private router : Router, private sweetAlert : SweetAlertService, private AlmacenamientoLocalService : AlmacenamientoLocalService) {};
   token : any; 
   tokenData: any;
   ngOnInit() {
-    this.token = localStorage.getItem('clave');
-    if (!this.token) {
-      this.router.navigate(['/login']);
+    let almacenamientoLocal = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
+    if (!almacenamientoLocal) {
+      this.router.navigate(['login']);
+      return;
+    }
+    almacenamientoLocal = this.AlmacenamientoLocalService.actualizarToken(almacenamientoLocal);
+    if (!almacenamientoLocal) {
+      this.router.navigate(['login']);
+      return;
     }
   }
 }

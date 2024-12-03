@@ -58,7 +58,7 @@ export class LoginComponent {
           this.sweetAlert.mensajeError("Usuario Invalido");
         } else {
           this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', response); // Para objetos
-          this.router.navigate(['/principal']);
+          this.router.navigate(['principal']);
         }
       },
       (error) => {
@@ -77,9 +77,8 @@ export class LoginComponent {
         if (typeof response === 'boolean') {
           return;
         } else {
-          this.AlmacenamientoLocalService.eliminarAlmacenamientoLocal("clave"); 
           this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', response); // Para objetos
-          this.router.navigate(['/principal']);
+          this.router.navigate(['principal']);
         }
       },
       (error) => {
