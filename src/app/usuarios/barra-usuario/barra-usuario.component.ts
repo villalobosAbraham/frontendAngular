@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { AlmacenamientoLocalService } from '../../services/almacenamiento-local.service';
+declare var $: any;
 
 interface datosGeneralesObtenerCantidadCarrito {
   datosGenerales : any
@@ -18,11 +19,27 @@ export class BarraUsuarioComponent {
   constructor(private apiService: ApiService, private router: Router, private sweetAlert : SweetAlertService, private AlmacenamientoLocalService : AlmacenamientoLocalService) {}
   carrito : any = 0;
   irInicio : string = "principal";
+  irCarrito : string = "carrito";
+  irCompras : string = "compras";
+  modalUsuario : string = "modalUsuario";
   nombreUsuarioBarra : string = "";
+  nombreUsuario : string = "";
+  apellidoPaternoUsuario : string = "";
+  apellidoMaternoUsuario : string = "";
+  correoUsuario : string = "";
+  telefonoUsuario : string = "";
+  fechaNacimientoUsuario : string = "";
+
 
   ngOnInit() {
+    $('#fechaCumpleaños').datepicker({
+      dateFormat: 'dd/mm/yy',
+      autoclose: true,
+      todayHighlight: true,
+      locale: "es"
+    });
     this.comprobarCantidadCarrito();
-    this.obtenerNombresUsuarios();
+    this.obtenerUsuario();
   }
 
   comprobarCantidadCarrito() {
@@ -56,7 +73,7 @@ export class BarraUsuarioComponent {
     return datosGenerales;
   }
 
-  obtenerNombresUsuarios() {
+  obtenerUsuario() {
     let datosGenerales = this.prepararDatosGeneralesSoloToken();
     if (!datosGenerales) {
       return;
@@ -70,11 +87,27 @@ export class BarraUsuarioComponent {
           return;
         } 
         this.nombreUsuarioBarra = usuario[0] + " " + usuario[1] + " " + usuario[2];
+        this.llenarModalUsuario(usuario);
       },
       (error) => {
         this.router.navigate(['login']);
       }
     );
+  }
+
+  llenarModalUsuario(usuario : any) {
+    this.nombreUsuario = usuario[0];
+    this.apellidoPaternoUsuario = usuario[1];
+    this.apellidoMaternoUsuario = usuario[2];
+    this.correoUsuario = usuario[3];
+    this.telefonoUsuario = usuario[4];
+    this.fechaNacimientoUsuario = usuario[5].split("-").reverse().join("/");
+
+    $("#fechaCumpleaños").datepicker("setDate", this.fechaNacimientoUsuario);
+  }
+
+  mostrarUsuario() {
+    $("#" + this.modalUsuario).modal("show");
   }
 
   cerrarSesion() {

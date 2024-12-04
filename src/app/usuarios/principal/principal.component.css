@@ -1,0 +1,25 @@
+.contenedor {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column; /* Coloca los elementos en una columna */
+}
+  
+.barra-usuario {
+    width: 100%; /* La barra ocupa todo el ancho */
+    height: 50px; /* Puedes ajustar la altura según sea necesario */
+    background-color: #f0f0f0; /* Solo un color de ejemplo */
+}
+  
+.filtro-genero {
+    width: 15%; /* El filtro ocupa el 15% del ancho */
+    background-color: #3f7892; /* Solo un color de ejemplo */
+    position: absolute;
+    top: 50px; /* Justo debajo de la barra */
+    left: 0;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.libros {
+    margin-left: 17%;
+}

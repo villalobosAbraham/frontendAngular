@@ -1,0 +1,14 @@
+.elementoListaFiltro {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 40px;
+    text-align: center;
+    gap: 4px;
+    align-items: center;
+}
+
+div {
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}

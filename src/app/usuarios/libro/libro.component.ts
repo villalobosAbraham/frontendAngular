@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './libro.component.css'
 })
 export class LibroComponent {
-
+  
 }

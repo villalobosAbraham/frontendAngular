@@ -1,7 +1,72 @@
 <ul class="barra">
-    <li><a [href]="irInicio">Inicio <i class="fa fa-home"></i></a></li>
-    <li><a id="linkCompras" href="../Vistas/compras.php">Mis Compras <i id="iconoCompras" class="fa fa-book"></i></a></li>
+    <li><a [href]="irInicio">Libreria Digital <i class="fa fa-home"></i></a></li>
+    <li><a [href]="irCompras">Mis Compras <i id="iconoCompras" class="fa fa-book"></i></a></li>
     <li class="align-right"><a (click)="cerrarSesion()"><i class="fa fa-sign-out"></i> Cerrar Sesion</a></li>
-    <li class="align-right"><a id="linkCarrito" href="../Vistas/carrito.php"><i id="iconoCarrito" class="fa fa-shopping-cart"> {{carrito}}</i> Carrito</a></li>
-    <li id="barraUsuario" class="align-right"><a onclick="abrirModalUsuario();"><i class="fa fa-user-circle" id="iconoUsuario"> {{nombreUsuarioBarra}}</i></a></li>
+    <li class="align-right"><a [href]="irCarrito"><i id="iconoCarrito" class="fa fa-shopping-cart"> {{carrito}}</i> Carrito</a></li>
+    <li id="barraUsuario" class="align-right"><a (click)="mostrarUsuario()"><i class="fa fa-user-circle" id="iconoUsuario"> {{nombreUsuarioBarra}}</i></a></li>
 </ul>
+
+<div class="modal fade" [id]="modalUsuario" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Informacion del Usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="label-control">Nombre:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" id="nombreUsuario" class="input-control col-md-12" [value]="nombreUsuario">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="label-control">Apellido Paterno:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" id="apellidoPaternoUsuario" class="input-control col-md-12" [value]="apellidoPaternoUsuario">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="label-control">Apellido Materno:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" id="apellidoMaternoUsuario" class="input-control col-md-12" [value]="apellidoMaternoUsuario">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="label-control">Correo Electronico:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" id="correoUsuario" class="input-control col-md-12" [value]="correoUsuario">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="label-control">Numero Telefonico:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" id="telefonoUsuario" class="input-control col-md-12" [value]="telefonoUsuario">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="label-control">Fecha de Nacimiento:</label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" data-input-mask="31/12/9999" placeholder="DD/MM/AAAA" id="fechaCumpleaños" [value]="fechaNacimientoUsuario">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
