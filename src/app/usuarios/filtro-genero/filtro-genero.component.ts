@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AlmacenamientoLocalService } from '../../services/almacenamiento-local.service';
 import { ApiService } from '../../services/api.service';
 
-interface datosGneeralesEncapsulado {
+interface datosGeneralesEncapsulado {
   datosGenerales : any
 }
 @Component({
@@ -45,7 +45,7 @@ export class FiltroGeneroComponent {
     let token = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
     
     token = this.AlmacenamientoLocalService.actualizarToken(token);
-    let datosGenerales : datosGneeralesEncapsulado = {
+    let datosGenerales : datosGeneralesEncapsulado = {
       datosGenerales : token
     };
     

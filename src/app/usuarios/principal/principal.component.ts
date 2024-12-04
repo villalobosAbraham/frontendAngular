@@ -6,13 +6,15 @@ import { AlmacenamientoLocalService } from '../../services/almacenamiento-local.
 import { FiltroGeneroComponent } from '../filtro-genero/filtro-genero.component';
 import { LibroComponent } from "../libro/libro.component";
 import { ApiService } from '../../services/api.service';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
-interface datosGneeralesEncapsulado {
+interface datosGeneralesEncapsulado {
   datosGenerales : any
 }
 @Component({
   selector: 'app-principal',
-  imports: [BarraUsuarioComponent, FiltroGeneroComponent, LibroComponent],
+  imports: [BarraUsuarioComponent, FiltroGeneroComponent, LibroComponent, CommonModule],
   templateUrl: './principal.component.html',
   styleUrl: './principal.component.css'
 })
@@ -64,7 +66,7 @@ export class PrincipalComponent {
     let token = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
     
     token = this.AlmacenamientoLocalService.actualizarToken(token);
-    let datosGenerales : datosGneeralesEncapsulado = {
+    let datosGenerales : datosGeneralesEncapsulado = {
       datosGenerales : token
     };
     

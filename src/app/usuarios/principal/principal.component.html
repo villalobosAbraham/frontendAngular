@@ -5,8 +5,27 @@
     <div class="filtro-genero">
         <app-filtro-genero></app-filtro-genero>
     </div>
-    <div class="libros">
-        <!-- <app-libro></app-libro> -->
-         
+    <div id="contenedorLibros" class="contenedorLibros">
+        @if (librosPopulares) {
+            <div>
+                <h2>Libros Populares</h2>
+                <div class="contenedorLibros2">
+                    @for(libroPopular of librosPopulares; track libroPopular[0]) {
+                        <app-libro [id]="libroPopular[0]" [libro]="libroPopular" class="libros"></app-libro>
+                    }
+                </div>
+                <hr>
+            </div>
+        }
+        @if (librosRecomendados) {
+            <div>
+                <h2>Libros Recomendados</h2>
+                <div class="contenedorLibros2">
+                    @for(libroRecomendado of librosRecomendados; track libroRecomendado[0]) {
+                        <app-libro [id]="libroRecomendado[0]" [libro]="libroRecomendado" class="libros"></app-libro>
+                    }
+                </div>
+            </div>
+        }
     </div>
 </div>

@@ -11,7 +11,7 @@
 }
   
 .filtro-genero {
-    width: 15%; /* El filtro ocupa el 15% del ancho */
+    width: fit-content; /* El filtro ocupa el 15% del ancho */
     background-color: #3f7892; /* Solo un color de ejemplo */
     position: absolute;
     top: 50px; /* Justo debajo de la barra */
@@ -20,6 +20,27 @@
     border-radius: 10px;
 }
 
-.libros {
+.contenedorLibros {
     margin-left: 17%;
+    margin-top: 10px;
+    width: auto;
+    overflow-x: hidden;
+    display: inline-block;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    text-align: center;
+}
+
+.contenedorLibros2 {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.libros {
+    width: 300px;
+    max-width: 300px;
 }
