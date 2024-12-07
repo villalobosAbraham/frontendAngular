@@ -28,4 +28,15 @@ export class SweetAlertService {
       timer: 1800,
     })
   }
+
+  mensajeFuncionoAgregarLibro() {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: '<h3> Agregado Correctamente </h3>',
+      showConfirmButton: false,
+      timerProgressBar: true,
+      timer: 1800,
+    })
+  }
 }

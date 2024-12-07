@@ -11,7 +11,7 @@
                 <h2>Libros Populares</h2>
                 <div class="contenedorLibros2">
                     @for(libroPopular of librosPopulares; track libroPopular[0]) {
-                        <app-libro [id]="libroPopular[0]" [libro]="libroPopular" class="libros"></app-libro>
+                        <app-libro [id]="libroPopular[0]" [libro]="libroPopular" class="libros" (aumentoCarrito)="hacerActualizarCarrito($event)" (detallesLibro)="mostrarLibro($event)"></app-libro>
                     }
                 </div>
                 <hr>
@@ -22,10 +22,59 @@
                 <h2>Libros Recomendados</h2>
                 <div class="contenedorLibros2">
                     @for(libroRecomendado of librosRecomendados; track libroRecomendado[0]) {
-                        <app-libro [id]="libroRecomendado[0]" [libro]="libroRecomendado" class="libros"></app-libro>
+                        <app-libro [id]="libroRecomendado[0]" [libro]="libroRecomendado" class="libros" (aumentoCarrito)="hacerActualizarCarrito($event)" (detallesLibro)="mostrarLibro($event)"></app-libro>
                     }
                 </div>
             </div>
         }
+    </div>
+</div>
+
+<div class="modal fade modal-lg" [id]="modalLibro" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Libro: {{libroDetalle[1]}}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div id="divImagenLibroDetalles" class="col-md-4" style="max-height: 270px; height: 270px;">
+                        <img [src]="libroDetalle[6]" [alt]="'Imagen ' + libroDetalle[1]" class="form-control" style="height: 270px; border-radius: 50px;">
+                    </div>
+                    <div id="informacionLibro" class="col-md-8 text-center row">
+                        <h4>Autor(es):</h4>
+                        <h5 id="autoresLibro">{{libroDetalle[13]}}</h5>
+                        <div class="col-md-6">
+                            <h4>Fecha Publicacion:</h4>
+                            <h5 id="añoPublicacionLibro">{{libroDetalle[5]}}</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Genero:</h4>
+                            <h5 id="generoLibroDetalles">{{libroDetalle[12]}}</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Editorial:</h4>
+                            <h5 id="editorialLibro">{{libroDetalle[10]}}</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Idioma:</h4>
+                            <h5 id="idiomaLibro">{{libroDetalle[11]}}</h5>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Paginas:</h4>
+                            <h5 id="cantidadPaginas">{{libroDetalle[9]}}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div id="divSinopsisLibro">
+                    <h5>Sinopsis:</h5>
+                    <p id="pSinopsisLibro">{{libroDetalle[13]}}</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
     </div>
 </div>

@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlmacenamientoLocalService } from '../../services/almacenamiento-local.service';
 import { ApiService } from '../../services/api.service';
+import { datosGeneralesEncapsulado } from '../../shared/interfaces/datos-generales';
 
-interface datosGeneralesEncapsulado {
-  datosGenerales : any
-}
 @Component({
   selector: 'app-filtro-genero',
   standalone : true,

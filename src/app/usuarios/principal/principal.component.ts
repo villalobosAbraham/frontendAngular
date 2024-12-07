@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { Router } from '@angular/router';
 import { BarraUsuarioComponent } from '../barra-usuario/barra-usuario.component';
@@ -6,25 +6,28 @@ import { AlmacenamientoLocalService } from '../../services/almacenamiento-local.
 import { FiltroGeneroComponent } from '../filtro-genero/filtro-genero.component';
 import { LibroComponent } from "../libro/libro.component";
 import { ApiService } from '../../services/api.service';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { datosGeneralesEncapsulado } from '../../shared/interfaces/datos-generales';
+import { FormsModule } from '@angular/forms';
 
-interface datosGeneralesEncapsulado {
-  datosGenerales : any
-}
+declare var $: any;
+
 @Component({
   selector: 'app-principal',
-  imports: [BarraUsuarioComponent, FiltroGeneroComponent, LibroComponent, CommonModule],
+  imports: [BarraUsuarioComponent, FiltroGeneroComponent, LibroComponent, CommonModule, FormsModule],
   templateUrl: './principal.component.html',
   styleUrl: './principal.component.css'
 })
 export class PrincipalComponent {
   constructor(private Router : Router, private sweetAlert : SweetAlertService, private AlmacenamientoLocalService : AlmacenamientoLocalService, private ApiService : ApiService) {};
+  @ViewChild(BarraUsuarioComponent) BarraUsuarioComponent!: BarraUsuarioComponent;
   token : any; 
-  tokenData: any;
   idBarraUsuario : string = "barraUsuario";
   librosPopulares : any = "";
   librosRecomendados : any = "";
+  modalLibro : any = "modalDetalles";
+  libroDetalle : any = "";
+  
   ngOnInit() {
     let almacenamientoLocal = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
     if (!almacenamientoLocal) {
@@ -92,5 +95,15 @@ export class PrincipalComponent {
         this.Router.navigate(['login']);
       }
     );
+  }
+
+  hacerActualizarCarrito(mensaje : any) {
+    this.BarraUsuarioComponent.comprobarCantidadCarrito();
+  }
+
+  mostrarLibro(detalles : any) {
+    this.libroDetalle = detalles;
+    this.libroDetalle[5] = this.libroDetalle[5].split("-").reverse().join("/");
+    $("#" + this.modalLibro).modal("show");
   }
 }

@@ -4,6 +4,6 @@
     <h4>{{libro[13]}}</h4>
     <h5>Publicado: {{libro[6].split("-").reverse().join("/")}}</h5>
     <h5>Costo: ${{libro[2] - libro[3] + libro[4]}}</h5>
-    <button class="btn btn-primary"(click)="agregarLibroCarrito()" >Agregar a Carrito</button>
-    <button class="btn btn-secundary">Detalles</button>
+    <button class="btn btn-primary" (click)="agregarLibroCarrito()"><i class="fa fa-cart-plus" aria-hidden="true"></i> Agregar a Carrito</button>
+    <button class="btn btn-secundary" (click)="verDetallesLibro()"><i class="fa fa-info-circle" aria-hidden="true"></i> Detalles</button>
 </div> 

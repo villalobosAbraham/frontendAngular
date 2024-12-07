@@ -2,11 +2,11 @@
     <li><a [href]="irInicio">Libreria Digital <i class="fa fa-home"></i></a></li>
     <li><a [href]="irCompras">Mis Compras <i id="iconoCompras" class="fa fa-book"></i></a></li>
     <li class="align-right"><a (click)="cerrarSesion()"><i class="fa fa-sign-out"></i> Cerrar Sesion</a></li>
-    <li class="align-right"><a [href]="irCarrito"><i id="iconoCarrito" class="fa fa-shopping-cart"> {{carrito}}</i> Carrito</a></li>
+    <li [id]="listaCarrito" class="align-right"><a [href]="irCarrito"><i id="iconoCarrito" class="fa fa-shopping-cart"> {{carrito}}</i> Carrito</a></li>
     <li id="barraUsuario" class="align-right"><a (click)="mostrarUsuario()"><i class="fa fa-user-circle" id="iconoUsuario"> {{nombreUsuarioBarra}}</i></a></li>
 </ul>
 
-<div class="modal fade" [id]="modalUsuario" aria-hidden="true">
+<div class="modal fade" [id]="modalUsuario" data-bs-backdrop="static" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -19,7 +19,7 @@
                         <label class="label-control">Nombre:</label>
                     </div>
                     <div class="col-md-7">
-                        <input type="text" id="nombreUsuario" class="input-control col-md-12" [value]="nombreUsuario">
+                        <input type="text" id="nombreUsuario" class="input-control col-md-12" [(ngModel)]="nombreUsuario">
                     </div>
                 </div>
                 <div class="row">
@@ -27,7 +27,7 @@
                         <label class="label-control">Apellido Paterno:</label>
                     </div>
                     <div class="col-md-7">
-                        <input type="text" id="apellidoPaternoUsuario" class="input-control col-md-12" [value]="apellidoPaternoUsuario">
+                        <input type="text" id="apellidoPaternoUsuario" class="input-control col-md-12" [(ngModel)]="apellidoPaternoUsuario">
                     </div>
                 </div>
                 <div class="row">
@@ -35,23 +35,23 @@
                         <label class="label-control">Apellido Materno:</label>
                     </div>
                     <div class="col-md-7">
-                        <input type="text" id="apellidoMaternoUsuario" class="input-control col-md-12" [value]="apellidoMaternoUsuario">
+                        <input type="text" id="apellidoMaternoUsuario" class="input-control col-md-12" [(ngModel)]="apellidoMaternoUsuario">
                     </div>
                 </div>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-5">
                         <label class="label-control">Correo Electronico:</label>
                     </div>
                     <div class="col-md-7">
                         <input type="text" id="correoUsuario" class="input-control col-md-12" [value]="correoUsuario">
                     </div>
-                </div>
+                </div> -->
                 <div class="row">
                     <div class="col-md-5">
                         <label class="label-control">Numero Telefonico:</label>
                     </div>
                     <div class="col-md-7">
-                        <input type="text" id="telefonoUsuario" class="input-control col-md-12" [value]="telefonoUsuario">
+                        <input type="text" id="telefonoUsuario" class="input-control col-md-12" [(ngModel)]="telefonoUsuario">
                     </div>
                 </div>
                 <div class="row">
@@ -59,12 +59,12 @@
                         <label class="label-control">Fecha de Nacimiento:</label>
                     </div>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" data-input-mask="31/12/9999" placeholder="DD/MM/AAAA" id="fechaCumpleaños" [value]="fechaNacimientoUsuario">
+                        <input type="text" class="form-control" data-input-mask="31/12/9999" placeholder="DD/MM/AAAA" id="fechaCumpleaños" [(ngModel)]="fechaNacimientoUsuario">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                <button type="button" class="btn btn-primary" (click)="guardarUsuario()">Guardar Cambios</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
