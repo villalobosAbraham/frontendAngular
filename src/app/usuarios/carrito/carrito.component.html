@@ -1,0 +1,42 @@
+<div class="contenedor">
+    <div class="barra-usuario">
+        <app-barra-usuario></app-barra-usuario>
+    </div>
+    <div id="contenedorLibros" class="contenedorLibros">
+        <!-- <div id="divFiltrados">
+            <h2>Libros Buscados</h2>
+            <div class="contenedorLibros2">
+                @for(libroPaginado of librosPaginados; track libroPaginado[0]) {
+                    <app-libro [id]="libroPaginado[0]" [libro]="libroPaginado" class="libros" (aumentoCarrito)="hacerActualizarCarrito($event)" (detallesLibro)="mostrarLibro($event)"></app-libro>
+                }
+            </div>
+            <div class="paginacion">
+                <button (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">Anterior</button>
+                <span>Página {{paginaActual}} de {{totalPaginas()}}</span>
+                <button (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas()">Siguiente</button>
+            </div>
+            <hr>
+        </div>
+        @if (librosPopulares) {
+            <div>
+                <h2>Libros Populares</h2>
+                <div class="contenedorLibros2">
+                    @for(libroPopular of librosPopulares; track libroPopular[0]) {
+                        <app-libro [id]="libroPopular[0]" [libro]="libroPopular" class="libros" (aumentoCarrito)="hacerActualizarCarrito($event)" (detallesLibro)="mostrarLibro($event)"></app-libro>
+                    }
+                </div>
+                <hr>
+            </div>
+        }
+        @if (librosRecomendados) {
+            <div style="margin-bottom: 15px;">
+                <h2>Libros Recomendados</h2>
+                <div class="contenedorLibros2">
+                    @for(libroRecomendado of librosRecomendados; track libroRecomendado[0]) {
+                        <app-libro [id]="libroRecomendado[0]" [libro]="libroRecomendado" class="libros" (aumentoCarrito)="hacerActualizarCarrito($event)" (detallesLibro)="mostrarLibro($event)"></app-libro>
+                    }
+                </div>
+            </div>
+        } -->
+    </div>
+</div>

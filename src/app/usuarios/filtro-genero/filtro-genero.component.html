@@ -5,7 +5,7 @@
         @for(genero of generos; track genero[0]) {
             @if(genero[2] > 0) {
                 <li class="elementoListaFiltro" (click)="lineaCheckboc('genero' + genero[0])">
-                    <input type="checkbox" [name]="nameChecbox" [value]="genero[0]" [id]="'genero' + genero[0]">
+                    <input type="checkbox" [name]="nameCheckbox" [value]="genero[0]" [id]="'genero' + genero[0]">
                     <h5>{{genero[1]}}</h5>
                 </li>
             }

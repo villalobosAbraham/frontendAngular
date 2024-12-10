@@ -29,6 +29,17 @@ export class SweetAlertService {
     })
   }
 
+  mensajeInformacion(mensaje : string) {
+    Swal.fire({
+      position: 'top-end',
+      icon: 'info',
+      title: '<h3>'+mensaje+'</h3>',
+      showConfirmButton: false,
+      timerProgressBar: true,
+      timer: 1800,
+    })
+  }
+
   mensajeFuncionoAgregarLibro() {
     Swal.fire({
       position: 'top-end',

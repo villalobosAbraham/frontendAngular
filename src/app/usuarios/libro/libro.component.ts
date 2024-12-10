@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { AlmacenamientoLocalService } from '../../services/almacenamiento-local.service';
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { datosGeneralesEncapsulado } from '../../shared/interfaces/datos-generales';
+import { CommonModule } from '@angular/common'; // Importa CommonModule
 
 @Component({
   selector: 'app-libro',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './libro.component.html',
   styleUrl: './libro.component.css'
 })

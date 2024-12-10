@@ -43,6 +43,8 @@
 .libros {
     width: 300px;
     max-width: 300px;
+    height: max-content;
+    min-height: max-content;
 }
 
 #pSinopsisLibro {
@@ -51,20 +53,26 @@
     border-radius: 5px;
 }
 
-/* #cuerpoModalDetalles {
-    width: 100%;
-    min-width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-} */
-
-/* .divImagenLibroDetalles {
-    max-width: 20%;
-    max-height: 20%;
+#busquedaLibro {
+    /* width: 80%; */
+    border-radius: 5px;
+    margin-bottom: 25px;
 }
 
-.imagenLibro {
-    width: 100%;
-    max-width: 20%;
-    max-height: 20%;
-} */
+.paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+  
+.paginacion button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+  
+.paginacion button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}

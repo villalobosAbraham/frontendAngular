@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlmacenamientoLocalService } from '../../services/almacenamiento-local.service';
 import { ApiService } from '../../services/api.service';
@@ -14,7 +14,8 @@ import { datosGeneralesEncapsulado } from '../../shared/interfaces/datos-general
 export class FiltroGeneroComponent {
   constructor(private Router : Router, private AlmacenamientoLocalService : AlmacenamientoLocalService, private ApiService : ApiService) {}
   generos : any = "";
-  nameChecbox : any = "checkboxGeneros";
+  nameCheckbox : any = "checkboxGeneros";
+  @Output() filtroLimpio = new EventEmitter();
 
   ngOnInit() {
     this.obtenerGeneros();
@@ -58,6 +59,20 @@ export class FiltroGeneroComponent {
   }
 
   limpiarFiltros() {
-    $('input[name="' + this.nameChecbox + '"]').prop('checked', false);
+    $('input[name="' + this.nameCheckbox + '"]').prop('checked', false);
+    this.filtroLimpio.emit();
+  }
+
+  obtenerGenerosSeleccionados() {
+    let checkboxes = document.querySelectorAll<HTMLInputElement>(
+      `input[name="${this.nameCheckbox}"]:checked`
+    );
+
+    // Mapear los valores de los checkboxes seleccionados a un arreglo de números
+    let idsSeleccionados = Array.from(checkboxes).map((checkbox) =>
+      Number(checkbox.value)
+    );
+
+    return idsSeleccionados;
   }
 }

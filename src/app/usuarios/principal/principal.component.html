@@ -3,9 +3,29 @@
         <app-barra-usuario></app-barra-usuario>
     </div>
     <div class="filtro-genero">
-        <app-filtro-genero></app-filtro-genero>
+        <app-filtro-genero (filtroLimpio)="ocultarLibrosFiltrados($event)"></app-filtro-genero>
     </div>
     <div id="contenedorLibros" class="contenedorLibros">
+        <div class="row">
+            <div class="col-md-9">
+                <input type="text" id="busquedaLibro" class="form-control" [(ngModel)]="busquedaLibro">
+            </div>
+            <button class="btn btn-primary" (click)="filtrarLibros()" style="height: min-content; width: fit-content;">Buscar <i class="fa fa-search"></i></button>
+        </div>
+        <div id="divFiltrados" *ngIf="librosBuscados.length > 0">
+            <h2>Libros Buscados</h2>
+            <div class="contenedorLibros2">
+                @for(libroPaginado of librosPaginados; track libroPaginado[0]) {
+                    <app-libro [id]="libroPaginado[0]" [libro]="libroPaginado" class="libros" (aumentoCarrito)="hacerActualizarCarrito($event)" (detallesLibro)="mostrarLibro($event)"></app-libro>
+                }
+            </div>
+            <div class="paginacion">
+                <button (click)="cambiarPagina(paginaActual - 1)" [disabled]="paginaActual === 1">Anterior</button>
+                <span>Página {{paginaActual}} de {{totalPaginas()}}</span>
+                <button (click)="cambiarPagina(paginaActual + 1)" [disabled]="paginaActual === totalPaginas()">Siguiente</button>
+            </div>
+            <hr>
+        </div>
         @if (librosPopulares) {
             <div>
                 <h2>Libros Populares</h2>
@@ -18,7 +38,7 @@
             </div>
         }
         @if (librosRecomendados) {
-            <div>
+            <div style="margin-bottom: 15px;">
                 <h2>Libros Recomendados</h2>
                 <div class="contenedorLibros2">
                     @for(libroRecomendado of librosRecomendados; track libroRecomendado[0]) {

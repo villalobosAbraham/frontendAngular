@@ -21,12 +21,18 @@ declare var $: any;
 export class PrincipalComponent {
   constructor(private Router : Router, private sweetAlert : SweetAlertService, private AlmacenamientoLocalService : AlmacenamientoLocalService, private ApiService : ApiService) {};
   @ViewChild(BarraUsuarioComponent) BarraUsuarioComponent!: BarraUsuarioComponent;
+  @ViewChild(FiltroGeneroComponent) FiltroGeneroComponent!: FiltroGeneroComponent;
   token : any; 
   idBarraUsuario : string = "barraUsuario";
   librosPopulares : any = "";
   librosRecomendados : any = "";
+  librosBuscados : any = "";
   modalLibro : any = "modalDetalles";
   libroDetalle : any = "";
+  busquedaLibro : any = "";
+  librosPaginados: any[] = []; // Libros visibles en la página actual
+  paginaActual: number = 1; // Página inicial
+  librosPorPagina: number = 3; // Número de libros por página
   
   ngOnInit() {
     let almacenamientoLocal = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
@@ -105,5 +111,66 @@ export class PrincipalComponent {
     this.libroDetalle = detalles;
     this.libroDetalle[5] = this.libroDetalle[5].split("-").reverse().join("/");
     $("#" + this.modalLibro).modal("show");
+  }
+
+  filtrarLibros() {
+    let datosGenerales = this.prepararDatosGeneralesBuscarLibros();
+
+    this.ApiService.post('CONFFiltrarLibros/', datosGenerales).subscribe(
+      (response) => {
+        if (response == false) {
+          this.sweetAlert.mensajeInformacion("No hay Libros Coincidentes");
+          return;
+        } 
+        this.AlmacenamientoLocalService.actualizarToken(datosGenerales.datosGenerales.token);
+        this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales.token); // Para objetos
+        this.librosBuscados = response;
+        this.paginaActual = 1; // Reiniciar a la primera página
+        this.actualizarLibrosPaginados();
+        // $("#")
+      },
+      (error) => {
+        this.sweetAlert.mensajeError("Fallo de Conexion al Servidor");
+      }
+    );
+  }
+
+  prepararDatosGeneralesBuscarLibros() {
+    let idsGeneros = this.FiltroGeneroComponent.obtenerGenerosSeleccionados();
+    let token = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
+    token = this.AlmacenamientoLocalService.actualizarToken(token);
+    let datosGeneralesAntesEncapsular = {
+      libro : this.busquedaLibro,
+      idsGeneros : idsGeneros,
+    };
+
+    let datosGenerales = {
+      datosGenerales : datosGeneralesAntesEncapsular,
+      token : token,
+    }
+    let datosGeneralesEncapsulados : datosGeneralesEncapsulado = {
+      datosGenerales : datosGenerales
+    };
+
+    return datosGeneralesEncapsulados;
+  }
+
+  actualizarLibrosPaginados() {
+    const inicio = (this.paginaActual - 1) * this.librosPorPagina;
+    const fin = inicio + this.librosPorPagina;
+    this.librosPaginados = this.librosBuscados.slice(inicio, fin);
+  }
+
+  cambiarPagina(nuevaPagina: number) {
+    this.paginaActual = nuevaPagina;
+    this.actualizarLibrosPaginados();
+  }
+
+  totalPaginas(): number {
+    return Math.ceil(this.librosBuscados.length / this.librosPorPagina);
+  }
+
+  ocultarLibrosFiltrados(mensaje : any) {
+    $("#divFiltrados").css("display", "none");
   }
 }
