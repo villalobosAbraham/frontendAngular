@@ -127,7 +127,7 @@ export class PrincipalComponent {
         this.librosBuscados = response;
         this.paginaActual = 1; // Reiniciar a la primera página
         this.actualizarLibrosPaginados();
-        // $("#")
+        $("#divFiltrados").css("display", "block");
       },
       (error) => {
         this.sweetAlert.mensajeError("Fallo de Conexion al Servidor");

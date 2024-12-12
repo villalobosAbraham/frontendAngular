@@ -1,0 +1,11 @@
+.contenedorLibro {
+    border: 1px solid #7bc1e9;
+    border-radius: 15px;
+}
+
+input {
+    border-radius: 5px;
+    width: 50px;
+    max-height: 70px;
+    min-width: 40px;
+}
