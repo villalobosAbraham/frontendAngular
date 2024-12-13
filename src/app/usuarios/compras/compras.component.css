@@ -1,0 +1,16 @@
+.contenedor {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column; /* Coloca los elementos en una columna */
+}
+  
+.barra-usuario {
+    width: 100%; /* La barra ocupa todo el ancho */
+    height: 50px; /* Puedes ajustar la altura según sea necesario */
+    background-color: #f0f0f0; /* Solo un color de ejemplo */
+}
+
+.compras {
+    width: 100%;
+    text-align: center;
+}
