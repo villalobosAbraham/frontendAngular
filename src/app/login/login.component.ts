@@ -87,4 +87,8 @@ export class LoginComponent {
     );
   }
 
+  irRegistrar() {
+    this.router.navigate(['registrar']);
+  }
+
 }

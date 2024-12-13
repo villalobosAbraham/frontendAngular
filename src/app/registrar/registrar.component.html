@@ -1,0 +1,38 @@
+<body class="d-flex justify-content-center align-items-center vh-100">
+    <section class="form-signin col-md-3">
+      <img class="mb-4" src="/images/logo.png" alt="logo" width="72" height="57">
+      <h1 class="h3 mb-3 fw-normal">Bienvenidos a Libreria Digital</h1>
+      
+      <div class="form-floating">
+        <input type="text" class="form-control" id="inputName" placeholder="name" [(ngModel)]="nombre">
+        <label for="inputName">Nombre</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="inputApellidoPaterno" placeholder="Villalobos" [(ngModel)]="apellidoPaterno">
+        <label for="inputApellidoPaterno">Apellido Paterno</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="inputApellidoMaterno" placeholder="Fonseca" [(ngModel)]="apellidoMaterno">
+        <label for="inputApellidoMaterno">Apellido Materno</label>
+      </div>
+      <div class="form-floating">
+        <input type="number" class="form-control" id="inputTelefono" placeholder="6681939669" [(ngModel)]="telefono">
+        <label for="inputTelefono">Telefono</label>
+      </div>
+      <div class="form-floating">
+        <input type="text" class="form-control" id="inputFechaNacimiento" placeholder="02/07/2003" [(ngModel)]="fechaNacimiento">
+        <label for="inputFechaNacimiento">Fecha Nacimiento</label>
+      </div>
+      <div class="form-floating">
+        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" [(ngModel)]="correo">
+        <label for="floatingInput">Correo Electronico</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Contraseña" [(ngModel)]="password">
+        <label for="floatingPassword">Contraseña</label>
+      </div>
+      
+      <button class="btn btn-primary w-100 py-2" (click)="registrarUsuario()">Registrar Usuario</button>
+      <p class="mt-5 mb-3 text-body-secondary">Copyright © {{fechaActual}}</p>
+    </section>
+  </body>
