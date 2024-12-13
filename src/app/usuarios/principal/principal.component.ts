@@ -14,6 +14,7 @@ declare var $: any;
 
 @Component({
   selector: 'app-principal',
+  standalone: true,
   imports: [BarraUsuarioComponent, FiltroGeneroComponent, LibroComponent, CommonModule, FormsModule],
   templateUrl: './principal.component.html',
   styleUrl: './principal.component.css'

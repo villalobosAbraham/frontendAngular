@@ -50,4 +50,21 @@ export class SweetAlertService {
       timer: 1800,
     })
   }
+
+  cargando() {
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        title: 'Cargando',
+        showConfirmButton: false,
+        background: '#fff linear-gradient(145deg, rgba(255,255,255,1) 30%, rgba(0,136,204,1) 100%',
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+  }
+
+  close() {
+    Swal.close();
+  }
 }

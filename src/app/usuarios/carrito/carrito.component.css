@@ -29,7 +29,19 @@
     background-color: bisque;
 }
 
+.contenedorLibros2 {
+    display: inline-block;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    text-align: center;
+}
 .contenedorPago {
     width: 30%;
     background-color: rgb(12, 211, 5);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centra horizontalmente */
+    height: fit-content;
+    gap: 20px;
 }

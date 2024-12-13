@@ -9,17 +9,63 @@ import { datosGeneralesEncapsulado } from '../../shared/interfaces/datos-general
 import { FormsModule } from '@angular/forms';
 import { LibrosCarritoComponent } from '../libros-carrito/libros-carrito.component';
 
+declare var paypal : any;
+
 @Component({
   selector: 'app-carrito',
+  standalone: true,
   imports: [BarraUsuarioComponent, CommonModule, FormsModule, LibrosCarritoComponent],
   templateUrl: './carrito.component.html',
   styleUrl: './carrito.component.css'
 })
 export class CarritoComponent {
   constructor(private Router : Router, private sweetAlert : SweetAlertService, private AlmacenamientoLocalService : AlmacenamientoLocalService, private ApiService : ApiService) {};
+  @ViewChild(BarraUsuarioComponent) BarraUsuarioComponent!: BarraUsuarioComponent;
   librosCarrito : any = "";
+  totales : any = "";
 
   ngOnInit() {
+    let almacenamientoLocal = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
+    if (!almacenamientoLocal) {
+      this.Router.navigate(['login']);
+      return;
+    }
+    almacenamientoLocal = this.AlmacenamientoLocalService.actualizarToken(almacenamientoLocal);
+    if (!almacenamientoLocal) {
+      this.Router.navigate(['login']);
+      return;
+    }
+
+    this.obtenerTotalesCarrito();
+    this.obtenerCarrito();
+  }
+
+  obtenerTotalesCarrito() {
+    let datosGenerales = this.prepararDatosGeneralesSoloToken();
+    if (!datosGenerales) {
+      return;
+    }
+
+    this.sweetAlert.cargando();
+    this.ApiService.post('INVObtenerTotalesCarritoCompra/', datosGenerales).subscribe(
+      (response) => {
+        if (typeof response === 'boolean') {
+          this.librosCarrito = "";
+          return;
+        } 
+        this.AlmacenamientoLocalService.actualizarToken(datosGenerales.datosGenerales);
+        this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales); // Para objetos
+        this.totales = response;
+        this.mostrarPaypal(this.totales[3]);
+      },
+      (error) => {
+        this.sweetAlert.close();
+        this.Router.navigate(['login']);
+      }
+    );
+  }
+
+  obtenerCarrito() {
     let datosGenerales = this.prepararDatosGeneralesSoloToken();
     if (!datosGenerales) {
       return;
@@ -28,6 +74,7 @@ export class CarritoComponent {
     this.ApiService.post('INVObtenerLibrosCarritoCompra/', datosGenerales).subscribe(
       (response) => {
         if (typeof response === 'boolean') {
+          this.librosCarrito = "";
           return;
         } 
         this.AlmacenamientoLocalService.actualizarToken(datosGenerales.datosGenerales);
@@ -49,5 +96,60 @@ export class CarritoComponent {
     };
     
     return datosGenerales;
+  }
+
+  mostrarPaypal(total : number) {
+    const paypalButtonContainer = document.getElementById("paypal-button-container");
+    if (paypalButtonContainer) {
+      paypalButtonContainer.innerHTML = "";
+    } else {
+      console.error("El elemento con id 'paypal-button-container' no existe.");
+    }
+    paypal.Buttons({
+      // Configuración del pago
+      createOrder: function(data : any, actions : any) {
+          return actions.order.create({
+              purchase_units: [{
+                  amount: {
+                    value: total // El monto del pago
+                  }
+              }]
+          });
+      },
+      // Ejecuta cuando el pago se apru ba
+      onApprove: function(data : any, actions : any) {
+          return actions.order.capture().then(function(details : any) {
+
+              let payerName = details.payer.name.given_name;
+              let payerSurname = details.payer.name.surname;
+              let payerEmail = details.payer.email_address;
+  
+              // Accede a información específica del pedido
+              const orderId = details.purchase_units[0].payments.captures[0].id;
+              let purchaseAmount = details.purchase_units[0].amount.value;
+              let currencyCode = details.purchase_units[0].amount.currency_code;
+  
+              // Accede a información de la transacción
+              let transactionStatus = details.status;
+          });
+      },
+      onError: function(err : any) {
+          console.error(err);
+          this.SweetAlertService.mensajeError("Fallo al Realizar Compra");
+      }
+    }).render('#paypal-button-container'); // Renderiza el botón en el contenedor especificado
+    this.sweetAlert.close();
+  }
+
+  actualizarCarrito(mensaje : any) {
+    this.obtenerCarrito();
+    this.obtenerTotalesCarrito();
+    this.BarraUsuarioComponent.comprobarCantidadCarrito();
+  }
+
+  eliminarlibro(mensaje : any) {
+    this.obtenerCarrito();
+    this.obtenerTotalesCarrito();
+    this.BarraUsuarioComponent.comprobarCantidadCarrito();
   }
 }

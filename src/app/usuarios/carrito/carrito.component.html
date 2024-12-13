@@ -7,13 +7,32 @@
             <div style="margin-bottom: 15px;">
                 <div class="contenedorLibros2">
                     @for(libroCarrito of librosCarrito; track libroCarrito[0]) {
-                        <app-libros-carrito [libro]="libroCarrito"></app-libros-carrito>
+                        <app-libros-carrito [libro]="libroCarrito" (aumentoCarrito)="actualizarCarrito($event)" (eliminarLibro)="eliminarlibro($event)"></app-libros-carrito>
                     }
                 </div>
             </div>
         </div>
         <div class="contenedorPago">
-            juan
+            <div class="col-md-12" style="justify-content: center; display: flex; flex-wrap: wrap;">
+                <div style="width: max-content; border: 2px solid #060606; border-radius: 5px;">
+                    <div class="row">
+                        <h2>Realizar Compra</h2>
+                    </div>
+                    <div class="row">
+                        <h4>SubTotal: ${{totales[0] | number:'1.2-2'}}</h4>
+                    </div>
+                    <div class="row">
+                        <h4>Descuento: ${{totales[1] | number:'1.2-2'}}</h4>
+                    </div>
+                    <div class="row">
+                        <h4>Iva: ${{totales[2] | number:'1.2-2'}}</h4>
+                    </div>
+                    <div class="row">
+                        <h4>Total: ${{totales[3] | number:'1.2-2'}}</h4>
+                    </div>
+                </div>
+            </div>
+            <div id="paypal-button-container"></div>
         </div>
     </div>
 </div>

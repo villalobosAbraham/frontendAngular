@@ -1,11 +1,13 @@
-<div class="row contenedorLibro" style="width: fit-content;">
+<div class="row contenedorLibro">
     <div class="col-md-3">
         <img [src]="libro[6]" [alt]="'Imagen ' + libro[2]" style="max-height: 150px; border-radius: 10px;">
     </div>
-    <div class="col-md-9">
+    <div class="col-md-9 datosLibro">
         <h3>{{libro[2]}}</h3>
-        <input type="number" [max]="libro[8]" [min]="1" [(ngModel)]="cantidad" (change)="actualizarValor()">
-        <h5 id="'totalLibro' + libro[0]">${{total}}</h5>
-        <!-- <button class="btn btn-secundary" (click)="verDetallesLibro()"><i class="fa fa-info-circle" aria-hidden="true"></i> Detalles</button> -->
+        <div>
+            <input type="number" [max]="libro[8]" [min]="1" [(ngModel)]="cantidad" (change)="comprobarNuevaCantidad()">
+            <button class="btn" (click)="eliminar()"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+        </div>
+        <h5 id="'totalLibro' + libro[0]">${{total | number:'1.2-2'}}</h5>
     </div>
 </div> 
