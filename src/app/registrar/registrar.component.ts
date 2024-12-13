@@ -43,7 +43,7 @@ export class RegistrarComponent {
     this.ApiService.post('LOGRegistrarUsuario/', datosGenerales).subscribe(
       (response) => {
         if (response == false) {
-          this.sweetAlert.mensajeError("Fallo al Registrar Usuario");
+          this.sweetAlert.mensajeError("Correo en Uso");
         } else {
           this.sweetAlert.mensajeFunciono("Usuario Agregado Correctamente");
           this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', response); // Para objetos
@@ -102,5 +102,9 @@ export class RegistrarComponent {
     };
 
     return datosGenerales;
+  }
+
+  regresar() {
+    this.Router.navigate(['login']);
   }
 }

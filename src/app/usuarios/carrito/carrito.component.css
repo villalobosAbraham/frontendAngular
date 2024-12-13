@@ -12,7 +12,6 @@
 
 .contenedorCarritoPago {
     width: 100%;
-    background-color: aqua;
     display: flex;
     gap: 10px;
     padding: 5px;
@@ -26,7 +25,6 @@
     align-self: center;
     align-content: center;
     text-align: center;
-    background-color: bisque;
 }
 
 .contenedorLibros2 {
@@ -38,7 +36,6 @@
 }
 .contenedorPago {
     width: 30%;
-    background-color: rgb(12, 211, 5);
     display: flex;
     flex-wrap: wrap;
     justify-content: center; /* Centra horizontalmente */
