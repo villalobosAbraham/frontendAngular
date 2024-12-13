@@ -19,6 +19,8 @@
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
     "bootstrap": "^5.3.3",
+    "datatables.net": "^2.1.8",
+    "datatables.net-dt": "^2.1.8",
     "express": "^4.21.2",
     "jquery": "^3.7.1",
     "jquery-ui": "^1.14.1",
