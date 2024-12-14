@@ -43,6 +43,7 @@ export class AlmacenamientoLocalService {
   // Método para eliminar todo el localStorage
   limpiarAlmacenamientoLocal() {
     localStorage.clear();
+    localStorage.removeItem("clave");
   }
 
   actualizarToken(token : any) {

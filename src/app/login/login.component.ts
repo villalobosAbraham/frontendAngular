@@ -53,12 +53,20 @@ export class LoginComponent {
     this.datosGenerales.datosGenerales = this.valores
     
     this.apiService.post('LOGIniciarSesion/', this.datosGenerales).subscribe(
-      (response) => {
+      (response : any) => {
         if (typeof response === 'boolean') {
           this.sweetAlert.mensajeError("Usuario Invalido");
         } else {
           this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', response); // Para objetos
-          this.router.navigate(['principal']);
+          if (response["idTipoUsuario"] == 1) {
+            this.router.navigate(['principal']);
+            return;
+          } else if (response["idTipoUsuario"] == 2) {
+            this.router.navigate(['sistema']);
+            return;
+          } else {
+            this.sweetAlert.mensajeError("Usuario Invalido");
+          }
         }
       },
       (error) => {
@@ -73,12 +81,20 @@ export class LoginComponent {
     this.datosGenerales.datosGenerales = this.valores;
 
     this.apiService.post('LOGIniciarSesion/', this.datosGenerales).subscribe(
-      (response) => {
+      (response : any) => {
         if (typeof response === 'boolean') {
-          return;
+          this.sweetAlert.mensajeError("Usuario Invalido");
         } else {
           this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', response); // Para objetos
-          this.router.navigate(['principal']);
+          if (response["idTipoUsuario"] == 1) {
+            this.router.navigate(['principal']);
+            return;
+          } else if (response["idTipoUsuario"] == 2) {
+            this.router.navigate(['sistema']);
+            return;
+          } else {
+            this.sweetAlert.mensajeError("Usuario Invalido");
+          }
         }
       },
       (error) => {

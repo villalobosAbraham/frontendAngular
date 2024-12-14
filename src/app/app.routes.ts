@@ -7,6 +7,7 @@ export const routes: Routes = [
     { path: 'principal', loadComponent: () => import('./usuarios/principal/principal.component').then(m => m.PrincipalComponent)},
     { path: 'carrito', loadComponent: () => import('./usuarios/carrito/carrito.component').then(m => m.CarritoComponent)},
     { path: 'compras', loadComponent: () => import('./usuarios/compras/compras.component').then(m => m.ComprasComponent)},
+    { path: 'sistema', loadComponent: () => import('./sistema/sistema/sistema.component').then(m => m.SistemaComponent)},
     { path: '**', redirectTo: 'login', pathMatch: 'full' },
     
 ];

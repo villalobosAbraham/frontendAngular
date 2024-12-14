@@ -49,6 +49,12 @@ export class PrincipalComponent {
     
     this.obtenerLibrosPopulares();
     this.obtenerLibrosRecomendados();
+
+    document.addEventListener('keydown', (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+          this.filtrarLibros();
+      }
+  });
   }
 
   obtenerLibrosPopulares() {

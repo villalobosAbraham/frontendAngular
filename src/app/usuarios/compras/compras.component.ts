@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api.service';
 import { datosGeneralesEncapsulado } from '../../shared/interfaces/datos-generales';
 import { AlmacenamientoLocalService } from '../../services/almacenamiento-local.service';
 import { SweetAlertService } from '../../services/sweet-alert.service';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -40,11 +41,21 @@ interface Detalle {
   styleUrl: './compras.component.css'
 })
 export class ComprasComponent {
-  constructor(private ApiService : ApiService, private AlmacenamientoLocalService : AlmacenamientoLocalService, private SweetAlertService : SweetAlertService) {}
+  constructor(private ApiService : ApiService, private AlmacenamientoLocalService : AlmacenamientoLocalService, private SweetAlertService : SweetAlertService, private Router : Router) {}
   tabla : any = "";
   tablaDetalles : any = "";
 
   ngOnInit() {
+    let almacenamientoLocal = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
+    if (!almacenamientoLocal) {
+      this.Router.navigate(['login']);
+      return;
+    }
+    almacenamientoLocal = this.AlmacenamientoLocalService.actualizarToken(almacenamientoLocal);
+    if (!almacenamientoLocal) {
+      this.Router.navigate(['login']);
+      return;
+    }
     this.tabla = $('#tablaCompras').DataTable({
       "pageLength": 10,
       "lengthChange": false,
