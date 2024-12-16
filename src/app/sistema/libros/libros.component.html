@@ -44,8 +44,8 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <label class="control-label" >Titulo del Libro: </label>
-                    <input type="text" id="nombreLibro" class="form-control" placeholder="Titulo">
+                    <label class="control-label">Titulo del Libro: </label>
+                    <input type="text" class="form-control" placeholder="Titulo" [(ngModel)]="titulo">
                 </div>
             
                 <div class="row">
@@ -81,38 +81,38 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label class="control-label">Paginas </label>
-                        <input type="text" id="paginas" class="form-control" placeholder="Paginas ">
+                        <input type="number" class="form-control" min="1" [(ngModel)]="paginas">
                     </div>
                     <div class="col-md-6">
                         <label class="control-label">Fecha Publicacion: </label>
-                        <input type="date" id="fechaPublicacion" class="form-control">
+                        <input type="date" class="form-control" [(ngModel)]="fechaPublicacion">
                     </div>
                 </div>
             
                 <div class="row">
                     <label class="control-label">Sinopsis Libro: </label>
-                    <textarea id="sinopsis" class="textarea-control"></textarea>
+                    <textarea id="sinopsis" class="textarea-control" [(ngModel)]="sinopsis"></textarea>
                 </div>
                   
                 <div class="row">
                     <div class="col-md-6">
                         <label class="control-label">Precio Base: </label>
-                        <input type="number" id="precioBase" class="form-control" placeholder="Precio Base" value="0" onchange="comprobarCostosAgregarLibro()">  
+                        <input type="number" class="form-control" placeholder="Precio Base" value="0" [(ngModel)]="precioBase">  
                     </div>
                     <div class="col-md-6">
                         <label class="control-label">Descuento: </label>
-                        <input type="number" id="descuento" class="form-control" placeholder="Descuento" value="0" onchange="comprobarCostosAgregarLibro()">  
+                        <input type="number" class="form-control" placeholder="Descuento" value="0" [(ngModel)]="descuento">  
                     </div>
                 </div>
                   
                 <div class="row">
                     <div class="col-md-6">
                         <label class="control-label">Iva: </label>
-                        <input type="text" id="iva" class="form-control" placeholder="Iva" disabled>  
+                        <label class="control-label">{{iva}}</label>
                     </div>
                     <div class="col-md-6">
                         <label class="control-label">Total: </label>
-                        <input type="text" id="total" class="form-control" placeholder="Total" disabled>  
+                        <label class="control-label">{{total}}</label>  
                     </div>
                 </div>
             
@@ -120,8 +120,8 @@
                     <h3 style="width: 100%;">CARGAR PORTADA</h3>
                     <input type="file" id="imageInput" name="image" accept="image/*">
                     <!-- <button type="submit">Subir</button> -->
-                    <button id="botonSubirImagen" class="botonPrimario" onclick="subirImagen()">Subir <i class="fa fa-upload"></i></button>
-                    <img id="uploadedImage"  alt="Uploaded Image" style="display: none;">
+                    <!-- <button id="botonSubirImagen" class="botonPrimario" onclick="subirImagen()">Subir <i class="fa fa-upload"></i></button> -->
+                    <!-- <img id="uploadedImage"  alt="Uploaded Image" style="display: none;"> -->
                     <button id="deleteButton" class="botonPrimario" onclick="borrarImagenSubida()" style="display:none;">Borrar Imagen</button>
                 </div>
             </div>
