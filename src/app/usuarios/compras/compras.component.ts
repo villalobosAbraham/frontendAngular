@@ -125,7 +125,7 @@ export class ComprasComponent {
         compra[1].split("-").reverse().join("/"), // Formato de fecha
         compra[10], // Concatenar campos
         compra[6], // Otro valor
-        compra[2], // Último valor a mostrar en la fila
+        "$" + compra[2], // Último valor a mostrar en la fila
         action
       ]).draw().node();
   

@@ -180,4 +180,8 @@ export class PrincipalComponent {
   ocultarLibrosFiltrados(mensaje : any) {
     $("#divFiltrados").css("display", "none");
   }
+
+  mandarFiltrar() {
+    this.filtrarLibros();
+  }
 }

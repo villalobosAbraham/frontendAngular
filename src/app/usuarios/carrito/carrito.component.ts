@@ -164,8 +164,9 @@ export class CarritoComponent {
 
     this.ApiService.post('VENRegistrarVenta/', datosGenerales).subscribe(
       (response) => {
-        if (typeof response === 'boolean') {
+        if (response == false) {
           this.librosCarrito = "";
+          this.sweetAlert.mensajeError("Fallo al Generar la Venta");
           return;
         } 
         this.actualizarCarrito("");

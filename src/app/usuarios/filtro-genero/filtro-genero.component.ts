@@ -16,6 +16,7 @@ export class FiltroGeneroComponent {
   generos : any = "";
   nameCheckbox : any = "checkboxGeneros";
   @Output() filtroLimpio = new EventEmitter();
+  @Output() filtrarLibros = new EventEmitter();
 
   ngOnInit() {
     this.obtenerGeneros();
@@ -51,13 +52,6 @@ export class FiltroGeneroComponent {
     return datosGenerales;
   }
 
-  lineaCheckboc(id: string) {
-    let checkbox = document.getElementById(id) as HTMLInputElement;
-    if (checkbox) {
-        checkbox.checked = !checkbox.checked; // Cambia el estado actual del checkbox
-    }
-  }
-
   limpiarFiltros() {
     $('input[name="' + this.nameCheckbox + '"]').prop('checked', false);
     this.filtroLimpio.emit();
@@ -74,5 +68,9 @@ export class FiltroGeneroComponent {
     );
 
     return idsSeleccionados;
+  }
+  
+  enviarFiltrar() {
+    this.filtrarLibros.emit();
   }
 }

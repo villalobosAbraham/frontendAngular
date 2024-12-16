@@ -1,0 +1,115 @@
+
+<div style="min-height: 100vh; background-color: rgb(207, 207, 207);">
+    <div style="display: flex;">
+        <div style="width: 15%;">
+            <app-barra-sistema></app-barra-sistema>
+        </div>
+        <div style="width: 85%; text-align: center;" class="panel-body">
+            <h2>Catalogo de Libros</h2>
+            <div class="row" class="botons">
+                <button class="btn btn-primary" (click)="abrirModalAgregarLibro()">Agregar Libro <i class="fa fa-plus"></i></button>
+                <button class="btn btn-primary" (click)="confirmarDesHabilitarLibro()">Inhabilitar Libro <i class="fa fa-ban"></i></button>
+                <button class="btn btn-primary" (click)="confirmarHabilitarLibro()">Habilitar Libro <i class="fa fa-check"></i></button>
+            </div>
+            <div style="width: 95%; margin-top: 1%;">
+                <div class="row">
+                    <table class="table table-bordered table-striped mb-none" id="tablaLibros">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Titulo</th>
+                                <th>Autor</th>
+                                <th>Portada</th>
+                                <th>Genero</th>
+                                <th>Idioma</th>
+                                <th>Editorial</th>
+                                <th>Fecha Publicacion</th>
+                                <th>Paginas</th>
+                                <th>Activo</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-lg" id="modal" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Agregar Libro</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <label class="control-label" >Titulo del Libro: </label>
+                    <input type="text" id="nombreLibro" class="form-control" placeholder="Titulo">
+            
+                    <label class="control-label">Autor: </label>
+                    <select id="autorLibro" class="form-control">
+                        <option value="-1">Seleccionar Autor</option>
+                    </select>
+                </div>
+            
+                <div class="row">
+                    <label class="control-label">Género: </label>
+                    <select id="generoLibro" class="form-control">
+                        <option value="-1">Seleccionar Género</option>
+                    </select>
+                    <label class="control-label">Editorial: </label>
+                    <select id="editorialLibro" class="form-control">
+                        <option value="-1">Seleccionar Editorial</option>
+                    </select>
+                </div>
+            
+                <div class="row">
+                    <label class="control-label">Idioma: </label>
+                    <select id="idiomaLibro" class="form-control">
+                        <option value="-1">Seleccionar Idioma</option>
+                    </select>
+                    <label class="control-label">Paginas </label>
+                    <input type="text" id="paginasLibro" class="form-control" placeholder="Paginas ">
+                </div>
+            
+                <div class="row">
+                    <label class="control-label">Fecha Publicacion: </label>
+                    <input type="date" id="fechaLibro" class="form-control">
+                </div>
+                  
+                <div class="row">
+                    <label class="control-label">Sinopsis Libro: </label>
+                    <textarea id="sinopsis" class="textarea-control"></textarea>
+                </div>
+                  
+                <div class="row">
+                    <label class="control-label">Precio Base: </label>
+                    <input type="number" id="precioBaseLibro" class="form-control" placeholder="Precio Base" value="0" onchange="comprobarCostosAgregarLibro()">  
+                    <label class="control-label">Descuento: </label>
+                    <input type="number" id="descuentoLibro" class="form-control" placeholder="Descuento" value="0" onchange="comprobarCostosAgregarLibro()">  
+                </div>
+                  
+                <div class="row">
+                    <label class="control-label">Iva: </label>
+                    <input type="text" id="ivaLibro" class="form-control" placeholder="Iva" disabled>  
+                    <label class="control-label">Total: </label>
+                    <input type="text" id="totalLibro" class="form-control" placeholder="Total" disabled>  
+                </div>
+            
+                <div class="row">
+                    <h3 style="width: 100%;">CARGAR PORTADA</h3>
+                    <input type="file" id="imageInput" name="image" accept="image/*">
+                    <!-- <button type="submit">Subir</button> -->
+                    <button id="botonSubirImagen" class="botonPrimario" onclick="subirImagen()">Subir <i class="fa fa-upload"></i></button>
+                    <img id="uploadedImage"  alt="Uploaded Image" style="display: none;">
+                    <button id="deleteButton" class="botonPrimario" onclick="borrarImagenSubida()" style="display:none;">Borrar Imagen</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button id="agregarLibro" class="btn btn-primary" onclick="abrirModalConfirmarAgregar()"><i class="fa fa-plus"></i> Guardar Informacion</button>
+            </div>
+        </div>
+    </div>
+</div>
