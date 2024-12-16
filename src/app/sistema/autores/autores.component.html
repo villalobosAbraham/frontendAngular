@@ -19,7 +19,7 @@
                                 <th></th>
                                 <th>Nombre</th>
                                 <th>Apellido Paterno</th>
-                                <th>Apelliod Materno</th>
+                                <th>Apellido Materno</th>
                                 <th>Fecha Nacimiento</th>
                                 <th>Nacionalidad</th>
                                 <th>Activo</th>
@@ -43,17 +43,17 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label class="control-label">Nombre: </label>
-                        <input type="text" id="nombre" class="form-control" placeholder="Nombre">
+                        <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="nombre">
                     </div>
                     <div class="col-md-6">
                         <label class="control-label">Apellido Paterno: </label>
-                        <input type="text" id="apellidoPaterno" class="form-control" placeholder="Apellido Paterno">
+                        <input type="text" class="form-control" placeholder="Apellido Paterno" [(ngModel)]="apellidoPaterno">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
                         <label class="control-label">Apellido Materno: </label>
-                        <input type="text" id="apellidoMaterno" class="form-control" placeholder="Apellido Materno">
+                        <input type="text" class="form-control" placeholder="Apellido Materno" [(ngModel)]="apellidoMaterno">
                     </div>
                     <div class="col-md-6">
                         <label class="control-label">Fecha Nacimiento: </label>
@@ -71,7 +71,7 @@
             </div>
             <div class="modal-footer">
                 <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button class="btn btn-primary" onclick="abrirModalConfirmarAgregar()"><i class="fa fa-plus"></i> Guardar Informacion</button>
+                <button class="btn btn-primary" (click)="abrirModalConfirmarAgregar()"><i class="fa fa-plus"></i> Guardar Informacion</button>
             </div>
         </div>
     </div>

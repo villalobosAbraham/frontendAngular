@@ -6,6 +6,7 @@ import { datosGeneralesEncapsulado } from '../../shared/interfaces/datos-general
 import { SweetAlertService } from '../../services/sweet-alert.service';
 import { ApiService } from '../../services/api.service';
 import Swal from 'sweetalert2';
+import { FormsModule } from '@angular/forms';
 declare var $: any;
 
 interface Autor {
@@ -19,16 +20,25 @@ interface Autor {
   7 : string,
 }
 
+interface Nacionalidad {
+  0 : number,
+  1 : string,
+  2 : string,
+}
+
 @Component({
   selector: 'app-autores',
   standalone : true,
-  imports: [BarraSistemaComponent],
+  imports: [BarraSistemaComponent, FormsModule],
   templateUrl: './autores.component.html',
   styleUrl: './autores.component.css'
 })
 export class AutoresComponent {
   constructor(private Router : Router, private AlmacenamientoLocalService : AlmacenamientoLocalService, private SweetAlertService : SweetAlertService, private ApiService : ApiService) {}
   tabla : any = "";
+  nombre : string = "";
+  apellidoPaterno : string = "";
+  apellidoMaterno : string = "";
 
   ngOnInit() {
       let almacenamientoLocal = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
@@ -51,11 +61,16 @@ export class AutoresComponent {
       });
       $('#fechaNacimiento').datepicker({
         dateFormat: 'dd/mm/yy',
+        changeYear: true, // Habilita el cambio de año
+        changeMonth: true, // Opcional: permite cambiar de mes
+        yearRange: "c-500:c-10",
         autoclose: true,
         todayHighlight: true,
         locale: "es"
       });
       this.obtenerAutores();
+      this.obtenerNacionalidades();
+      
     }
 
     obtenerAutores() {
@@ -123,6 +138,27 @@ export class AutoresComponent {
   
     prepararActivoAutor(activo : any) {
       return (activo == "S") ? "Si" : "No";
+    }
+
+    obtenerNacionalidades() {
+      let datosGenerales = this.prepararDatosGeneralesSoloToken();
+      
+          this.ApiService.post('ADMObtenerNacionesActivas/', datosGenerales).subscribe(
+            (response : any) => {
+              if (typeof response === 'boolean') {
+                return;
+              } 
+              let nacionalidades : Nacionalidad[] = response;
+              this.AlmacenamientoLocalService.actualizarToken(datosGenerales.datosGenerales);
+              this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales); // Para objetos
+              nacionalidades.forEach((nacionalidad: Nacionalidad) => {
+                let optionNacionalidad = $("<option>").attr("value", nacionalidad[0]).text(nacionalidad[1] + " | " + nacionalidad[2]);
+                $("#nacionalidad").append(optionNacionalidad);
+              });
+            },
+            (error) => {
+            }
+          );
     }
   
     confirmarHabilitarAutor() : any {
@@ -258,4 +294,94 @@ export class AutoresComponent {
     abrirModalAgregarAutor() {
       $("#modal").modal("show");
     }
+    
+    abrirModalConfirmarAgregar() {
+    if (!this.comprobarDatosAgregar()) {
+      return;
+    }
+    Swal.fire({
+      title: "Estas Seguro?",
+      text: "Confirmar Agregar Autor",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Agregar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.agregarAutor();
+      }
+    });
+  }
+
+  comprobarDatosAgregar() {
+    let fechaNacimiento = $("#fechaNacimiento").val();
+    let idNacionalidad = $("#nacionalidad").val();
+    if (this.nombre == "") {
+      this.SweetAlertService.mensajeError("Nombre Vacio");
+      return false;
+    } else if (this.apellidoPaterno == "") {
+      this.SweetAlertService.mensajeError("Apellido Paterno Vacio");
+      return false;
+    } else if (fechaNacimiento == "") {
+      this.SweetAlertService.mensajeError("Falta Sinopsis");
+      return false;
+    } else if (idNacionalidad == "-1") {
+      this.SweetAlertService.mensajeError("Precio Base Incorrecto");
+      return false;
+    }
+
+    return true;
+  }
+
+  agregarAutor() {
+    let datosGenerales = this.prepararDatosGeneralesAgregarAutor();
+
+    this.SweetAlertService.cargando();
+      this.ApiService.post('ADMAgregarAutor/', datosGenerales).subscribe(
+        (response : any) => {
+          if (response == false) {
+            this.SweetAlertService.close();
+            this.SweetAlertService.mensajeError("Fallo al Agregar el Autor");
+            return;
+          } 
+          this.AlmacenamientoLocalService.actualizarToken(datosGenerales.datosGenerales.token);
+          this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales.token); // Para objetos
+          this.SweetAlertService.close();
+          this.SweetAlertService.mensajeFunciono("Autor Agregado con Exito");
+          $("#modal").modal("hide");
+        },
+        (error) => {
+          this.SweetAlertService.close();
+          this.SweetAlertService.mensajeError("Fallo de Conexion al Servidor");
+        }
+      );
+  }
+
+  prepararDatosGeneralesAgregarAutor() {
+    let token = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
+    token = this.AlmacenamientoLocalService.actualizarToken(token);
+
+    let fechaNacimiento = $("#fechaNacimiento").val().split("/").reverse().join("-");
+    let idNacionalidad = $("#nacionalidad").val();
+
+    let datosGeneralesAntesEncapsular = {
+      nombre : this.nombre,
+      apellidoPaterno : this.apellidoPaterno,
+      apellidoMaterno : (this.apellidoMaterno) ? this.apellidoMaterno : "",
+      fechaNacimiento : fechaNacimiento,
+      idNacionalidad : idNacionalidad,
+    };
+
+    let datosGenerales = {
+      datosGenerales : datosGeneralesAntesEncapsular,
+      token : token,
+    }
+
+    let datosGeneralesEncapsulados : datosGeneralesEncapsulado = {
+      datosGenerales : datosGenerales
+    };
+
+    return datosGeneralesEncapsulados;
+  }
 }
