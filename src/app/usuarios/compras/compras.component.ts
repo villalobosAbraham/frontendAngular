@@ -181,7 +181,7 @@ export class ComprasComponent {
     this.tablaDetalles.clear();
     detalles.forEach((detalle: Detalle) => {
       let imagen = document.createElement('img');
-      imagen.src = detalle[7];
+      imagen.src = "http://127.0.0.1:8000/media/" + detalle[7];
       imagen.style.cssText = "max-height : 150px";
       let fila = this.tablaDetalles.row.add([
         imagen,

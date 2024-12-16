@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { windowWhen } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 declare var $: any;
 
@@ -37,10 +38,25 @@ interface Autor {
   2 : string,
   3 : string,
 }
+
+interface Genero {
+  0 : number,
+  1 : string,
+}
+
+interface Editorial {
+  0 : number,
+  1 : string,
+}
+
+interface Idioma {
+  0 : number,
+  1 : string,
+}
 @Component({
   selector: 'app-libros',
   standalone : true,
-  imports: [BarraSistemaComponent, FormsModule],
+  imports: [BarraSistemaComponent, FormsModule, CommonModule],
   templateUrl: './libros.component.html',
   styleUrl: './libros.component.css'
 })
@@ -49,12 +65,12 @@ export class LibrosComponent {
   tabla : any = "";
   titulo : string = "";
   paginas : any = "";
-  fechaPublicacion : string = "";
   sinopsis : string = "";
   precioBase : any = 0;
   descuento : any = 0;
   iva : any = 0;
   total : any = 0;
+  portada : any =  "";
   
 
   ngOnInit() {
@@ -76,10 +92,18 @@ export class LibrosComponent {
       "autoWidth": true,
       "scrollY": "",
     });
+    $('#fechaPublicacion').datepicker({
+      dateFormat: 'dd/mm/yy',
+      autoclose: true,
+      todayHighlight: true,
+      locale: "es"
+    });
 
-    $("#autor").select2();
     this.obtenerLibros();
     this.obtenerAutoresActivos();
+    this.obtenerGenerosActivos();
+    this.obtenerEditoralesActivas();
+    this.obtenerIdiomasActivos();
   }
 
   obtenerLibros() {
@@ -155,7 +179,7 @@ export class LibrosComponent {
 
   prepararPortada(rutaPortada : string) {
     let imagen = document.createElement('img');
-    imagen.src = rutaPortada;
+    imagen.src = "http://127.0.0.1:8000/media/" + rutaPortada;
     imagen.style.cssText = "max-height : 150px";
 
     return imagen;
@@ -176,8 +200,69 @@ export class LibrosComponent {
           let optionAutor = $("<option>").attr("value", autor[0]).text(autor[1] + " " + autor[2] + " " + autor[3]);
           $("#autor").append(optionAutor);
         });
-        $("#autor").val("-1").trigger("change");
+      },
+      (error) => {
+      }
+    );
+  }
 
+  obtenerGenerosActivos() {
+    let datosGenerales = this.prepararDatosGeneralesSoloToken();
+
+    this.ApiService.post('ADMObtenerGenerosActivos/', datosGenerales).subscribe(
+      (response : any) => {
+        if (typeof response === 'boolean') {
+          return;
+        } 
+        let generos : Genero[] = response;
+        this.AlmacenamientoLocalService.actualizarToken(datosGenerales.datosGenerales);
+        this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales); // Para objetos
+        generos.forEach((genero: Genero) => {
+          let optionGenero = $("<option>").attr("value", genero[0]).text(genero[1]);
+          $("#genero").append(optionGenero);
+        });
+      },
+      (error) => {
+      }
+    );
+  }
+
+  obtenerEditoralesActivas() {
+    let datosGenerales = this.prepararDatosGeneralesSoloToken();
+
+    this.ApiService.post('ADMObtenerEditorialesActivos/', datosGenerales).subscribe(
+      (response : any) => {
+        if (typeof response === 'boolean') {
+          return;
+        } 
+        let editoriales : Editorial[] = response;
+        this.AlmacenamientoLocalService.actualizarToken(datosGenerales.datosGenerales);
+        this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales); // Para objetos
+        editoriales.forEach((editorial: Editorial) => {
+          let optionEditorial = $("<option>").attr("value", editorial[0]).text(editorial[1]);
+          $("#editorial").append(optionEditorial);
+        });
+      },
+      (error) => {
+      }
+    );
+  }
+
+  obtenerIdiomasActivos() {
+    let datosGenerales = this.prepararDatosGeneralesSoloToken();
+
+    this.ApiService.post('ADMObtenerIdiomasActivos/', datosGenerales).subscribe(
+      (response : any) => {
+        if (typeof response === 'boolean') {
+          return;
+        } 
+        let idiomas : Idioma[] = response;
+        this.AlmacenamientoLocalService.actualizarToken(datosGenerales.datosGenerales);
+        this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales); // Para objetos
+        idiomas.forEach((idioma: Idioma) => {
+          let optionIdioma = $("<option>").attr("value", idioma[0]).text(idioma[1]);
+          $("#idioma").append(optionIdioma);
+        });
       },
       (error) => {
       }
@@ -318,6 +403,21 @@ export class LibrosComponent {
     // $("#")
     $("#modal").modal("show");
   }
+  
+  calcularCostos() {
+    if (this.descuento > this.precioBase) {
+      this.descuento = this.precioBase;
+    }
+    this.iva = (this.precioBase - this.descuento) * 0.16;
+    this.total = this.precioBase - this.descuento + this.iva;
+  }
+
+  seleccionarImagen(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.portada = input.files[0];
+    }
+  }
 
   abrirModalConfirmarAgregar() {
     if (!this.comprobarDatosAgregar()) {
@@ -339,13 +439,14 @@ export class LibrosComponent {
   }
 
   comprobarDatosAgregar() {
+    let fechaPublicacion = $("#fechaPublicacion").val();
     if (this.titulo == "") {
       this.SweetAlertService.mensajeError("Titulo Vacio");
       return false;
     } else if (this.paginas <= 0 || this.paginas == "") {
       this.SweetAlertService.mensajeError("Paginas Erroneas");
       return false;
-    } else if (!this.fechaPublicacion || this.fechaPublicacion == "") {
+    } else if (fechaPublicacion == "") {
       this.SweetAlertService.mensajeError("Fecha de Publicacion Erronea");
       return false;
     } else if (this.sinopsis == "") {
@@ -367,6 +468,9 @@ export class LibrosComponent {
       setTimeout(() => {
         window.location.reload();
       }, 3000);
+    } else if (this.portada == "") {
+      this.SweetAlertService.mensajeError("Imagen no Seleccionada");
+      return false;
     }
 
     return true;
@@ -375,7 +479,7 @@ export class LibrosComponent {
   agregarLibro() {
     let datosGenerales = this.prepararDatosGeneralesAgregarLibro();
 
-    this.SweetAlertService.cargando();
+    // this.SweetAlertService.cargando();
     this.ApiService.post('ADMAgregarLibroCatalogo/', datosGenerales).subscribe(
       (response : any) => {
         if (response == false) {
@@ -387,8 +491,6 @@ export class LibrosComponent {
           }, 3000);
           return;
         } 
-        this.AlmacenamientoLocalService.actualizarToken(datosGenerales.datosGenerales.token);
-        this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales.token); // Para objetos
         this.SweetAlertService.close();
         this.SweetAlertService.mensajeFunciono("Libro Agregado con Exito");
         setTimeout(() => {
@@ -411,32 +513,29 @@ export class LibrosComponent {
     let token = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
     token = this.AlmacenamientoLocalService.actualizarToken(token);
     let idGenero = $("#genero").val();
-    let fecha = $("#fechaPublicacion").val().split("/").reverse().join("");
+    let fecha = $("#fechaPublicacion").val().split("/").reverse().join("-");
     let idIdioma = $("#idioma").val();
+    let idAutor = $("#autor").val();
     let idEditorial = $("#editorial").val();
 
-    let datos = {
-      titulo : this.titulo,
-      precio : this.precioBase,
-      descuento : this.descuento,
-      iva : this.iva,
-      idGenero : idGenero,
-      fechaPublicacion : fecha,
-      sinopsis : this.sinopsis,
-      paginas : this.paginas,
-      idIdioma : idIdioma,
-      idEditorial : idEditorial,
-    }
+    const formData = new FormData();
+    formData.append('portada', this.portada);
 
-    let datosGenerales = {
-      datosGenerales : datos,
-      token : token,
-    }
+    // Agrega los demás datos al FormData
+    formData.append('titulo', this.titulo.toString());
+    formData.append('precio', this.precioBase.toString());
+    formData.append('descuento', this.descuento.toString());
+    formData.append('iva', this.iva.toString());
+    formData.append('idGenero', idGenero.toString());
+    formData.append('sinopsis', this.sinopsis);
+    formData.append('paginas', this.paginas.toString());
+    formData.append('idIdioma', idIdioma.toString());
+    formData.append('idEditorial', idEditorial.toString());
+    formData.append('fechaPublicacion', fecha.toString());
+    formData.append('idAutor', idAutor.toString());
 
-    let datosGeneralesEncapsulados : datosGeneralesEncapsulado = {
-      datosGenerales : datosGenerales
-    };
+    formData.append('token', JSON.stringify(token)); // Serializa el token);
 
-    return datosGeneralesEncapsulados;
+    return formData;
   }
 }

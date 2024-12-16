@@ -1,5 +1,5 @@
 <div class="d-flex flex-column align-items-center gap-3" style="height: max-content; padding-top: 10px; padding-bottom: 10px;">
-    <img [src]="libro[7]" [alt]="'Imagen ' + libro[1]" style="width: 180px; border-radius: 10px;">
+    <img [src]="'http://127.0.0.1:8000/media/' + libro[7]" [alt]="'Imagen ' + libro[1]" style="width: 180px; border-radius: 10px;">
     <h3>{{libro[1]}}</h3>
     <h4>{{libro[13]}}</h4>
     <h5>Publicado: {{libro[6].split("-").reverse().join("/")}}</h5>

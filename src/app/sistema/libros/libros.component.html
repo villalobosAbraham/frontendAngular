@@ -85,7 +85,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="control-label">Fecha Publicacion: </label>
-                        <input type="date" class="form-control" [(ngModel)]="fechaPublicacion">
+                        <input type="text" id="fechaPublicacion" class="form-control" placeholder="12/07/2005">
                     </div>
                 </div>
             
@@ -97,37 +97,32 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label class="control-label">Precio Base: </label>
-                        <input type="number" class="form-control" placeholder="Precio Base" value="0" [(ngModel)]="precioBase">  
+                        <input type="number" class="form-control" (change)="calcularCostos()" placeholder="Precio Base" value="0" [(ngModel)]="precioBase">  
                     </div>
                     <div class="col-md-6">
                         <label class="control-label">Descuento: </label>
-                        <input type="number" class="form-control" placeholder="Descuento" value="0" [(ngModel)]="descuento">  
+                        <input type="number" class="form-control" (change)="calcularCostos()" placeholder="Descuento" value="0" [(ngModel)]="descuento">  
                     </div>
                 </div>
                   
                 <div class="row">
                     <div class="col-md-6">
                         <label class="control-label">Iva: </label>
-                        <label class="control-label">{{iva}}</label>
+                        <label class="control-label">${{iva | number:'1.2-2'}}</label>
                     </div>
                     <div class="col-md-6">
                         <label class="control-label">Total: </label>
-                        <label class="control-label">{{total}}</label>  
+                        <label class="control-label">${{total | number:'1.2-2'}}</label>  
                     </div>
                 </div>
-            
+                <hr>
                 <div class="row">
                     <h3 style="width: 100%;">CARGAR PORTADA</h3>
-                    <input type="file" id="imageInput" name="image" accept="image/*">
-                    <!-- <button type="submit">Subir</button> -->
-                    <!-- <button id="botonSubirImagen" class="botonPrimario" onclick="subirImagen()">Subir <i class="fa fa-upload"></i></button> -->
-                    <!-- <img id="uploadedImage"  alt="Uploaded Image" style="display: none;"> -->
-                    <button id="deleteButton" class="botonPrimario" onclick="borrarImagenSubida()" style="display:none;">Borrar Imagen</button>
+                    <input type="file" id="imageInput" (change)="seleccionarImagen($event)" name="image" accept="image/*">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button id="agregarLibro" class="btn btn-primary" onclick="abrirModalConfirmarAgregar()"><i class="fa fa-plus"></i> Guardar Informacion</button>
+                <button id="agregarLibro" class="btn btn-primary" (click)="abrirModalConfirmarAgregar()"><i class="fa fa-floppy-o"></i> Guardar Informacion</button>
             </div>
         </div>
     </div>
