@@ -9,6 +9,7 @@ export const routes: Routes = [
     { path: 'compras', loadComponent: () => import('./usuarios/compras/compras.component').then(m => m.ComprasComponent)},
     { path: 'sistema', loadComponent: () => import('./sistema/sistema/sistema.component').then(m => m.SistemaComponent)},
     { path: 'libros', loadComponent: () => import('./sistema/libros/libros.component').then(m => m.LibrosComponent)},
+    { path: 'autores', loadComponent: () => import('./sistema/autores/autores.component').then(m => m.AutoresComponent)},
     { path: '**', redirectTo: 'login', pathMatch: 'full' },
     
 ];

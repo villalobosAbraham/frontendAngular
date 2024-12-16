@@ -1,0 +1,78 @@
+
+<div style="min-height: 100vh; background-color: rgb(207, 207, 207);">
+    <div style="display: flex;">
+        <div style="width: 15%;">
+            <app-barra-sistema></app-barra-sistema>
+        </div>
+        <div style="width: 85%; text-align: center;" class="panel-body">
+            <h2>Catalogo de Libros</h2>
+            <div class="row" class="botons">
+                <button class="btn btn-primary" (click)="abrirModalAgregarAutor()">Agregar Autor <i class="fa fa-plus"></i></button>
+                <button class="btn btn-primary" (click)="confirmarDesHabilitarAutor()">Inhabilitar Autor <i class="fa fa-ban"></i></button>
+                <button class="btn btn-primary" (click)="confirmarHabilitarAutor()">Habilitar Autor <i class="fa fa-check"></i></button>
+            </div>
+            <div style="width: 95%; margin-top: 1%;">
+                <div class="row">
+                    <table class="table table-bordered table-striped mb-none" id="tablaAutores">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Nombre</th>
+                                <th>Apellido Paterno</th>
+                                <th>Apelliod Materno</th>
+                                <th>Fecha Nacimiento</th>
+                                <th>Nacionalidad</th>
+                                <th>Activo</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-lg" id="modal" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Agregar Libro</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Nombre: </label>
+                        <input type="text" id="nombre" class="form-control" placeholder="Nombre">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Apellido Paterno: </label>
+                        <input type="text" id="apellidoPaterno" class="form-control" placeholder="Apellido Paterno">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Apellido Materno: </label>
+                        <input type="text" id="apellidoMaterno" class="form-control" placeholder="Apellido Materno">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Fecha Nacimiento: </label>
+                        <input type="text" class="form-control" id="fechaNacimiento" placeholder="02/07/2003">
+                    </div>
+                </div>
+                <div>
+                    <div class="col-md-6">
+                        <label class="control-label">Nacionalidad: </label>
+                        <select id="nacionalidad" class="form-control">
+                            <option value="-1">Seleccionar Idioma</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button class="btn btn-primary" onclick="abrirModalConfirmarAgregar()"><i class="fa fa-plus"></i> Guardar Informacion</button>
+            </div>
+        </div>
+    </div>
+</div>
