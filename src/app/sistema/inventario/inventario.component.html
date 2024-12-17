@@ -1,1 +1,67 @@
-<p>inventario works!</p>
+
+<div style="min-height: 100vh; background-color: rgb(207, 207, 207);">
+    <div style="display: flex;">
+        <div style="width: 15%;">
+            <app-barra-sistema></app-barra-sistema>
+        </div>
+        <div style="width: 85%; text-align: center;" class="panel-body">
+            <h2>Inventario</h2>
+            <div class="row" class="botons">
+                <button class="btn btn-primary" (click)="obtenerInformacionInventario()">Modificar Inventario <i class="fa fa-plus"></i></button>
+                <button class="btn btn-primary" (click)="confirmarDesHabilitarInventario()">Inhabilitar Inventario <i class="fa fa-ban"></i></button>
+                <button class="btn btn-primary" (click)="confirmarHabilitarInventario()">Habilitar Inventario <i class="fa fa-check"></i></button>
+            </div>
+            <div style="width: 95%; margin-top: 1%;">
+                <div class="row">
+                    <table class="table table-bordered table-striped mb-none" id="tablaInventario">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Portada</th>
+                                <th>Libro</th>
+                                <th>Genero</th>
+                                <th>Idioma</th>
+                                <th>Editorial</th>
+                                <th>Stock</th>
+                                <th>Activo</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-lg" id="modal" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Modificar Inventario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label">Libro: </label>
+                        <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="libro">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Inventario Actual: </label>
+                        <label class="control-label">{{inventarioAnterior}}</label>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Nuevo Inventario: </label>
+                        <input type="number" class="form-control" id="inventarioNuevo" min="0" value="0">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button class="btn btn-primary" (click)="abrirModalConfirmarAgregar()"><i class="fa fa-plus"></i> Guardar Informacion</button>
+            </div>
+        </div>
+    </div>
+</div>
