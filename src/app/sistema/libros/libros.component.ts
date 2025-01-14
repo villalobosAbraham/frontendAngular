@@ -65,12 +65,22 @@ export class LibrosComponent {
   tabla : any = "";
   titulo : string = "";
   paginas : any = "";
+  ISBN : any = "";
   sinopsis : string = "";
   precioBase : any = 0;
   descuento : any = 0;
   iva : any = 0;
   total : any = 0;
   portada : any =  "";
+  tituloEditar : string = "";
+  paginasEditar : any = "";
+  ISBNEditar : any = "";
+  sinopsisEditar : string = "";
+  precioBaseEditar : any = 0;
+  descuentoEditar : any = 0;
+  ivaEditar : any = 0;
+  totalEditar : any = 0;
+  portadaEditar : any =  "";
   
 
   ngOnInit() {
@@ -92,7 +102,7 @@ export class LibrosComponent {
       "autoWidth": true,
       "scrollY": "",
     });
-    $('#fechaPublicacion').datepicker({
+    $('#fechaPublicacion, #fechaPublicacionEditar').datepicker({
       dateFormat: 'dd/mm/yy',
       autoclose: true,
       todayHighlight: true,
@@ -198,7 +208,7 @@ export class LibrosComponent {
         this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales); // Para objetos
         autores.forEach((autor: Autor) => {
           let optionAutor = $("<option>").attr("value", autor[0]).text(autor[1] + " " + autor[2] + " " + autor[3]);
-          $("#autor").append(optionAutor);
+          $("#autor, #autorEditar").append(optionAutor);
         });
       },
       (error) => {
@@ -219,7 +229,7 @@ export class LibrosComponent {
         this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales); // Para objetos
         generos.forEach((genero: Genero) => {
           let optionGenero = $("<option>").attr("value", genero[0]).text(genero[1]);
-          $("#genero").append(optionGenero);
+          $("#genero, #generoEditar").append(optionGenero);
         });
       },
       (error) => {
@@ -240,7 +250,7 @@ export class LibrosComponent {
         this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales); // Para objetos
         editoriales.forEach((editorial: Editorial) => {
           let optionEditorial = $("<option>").attr("value", editorial[0]).text(editorial[1]);
-          $("#editorial").append(optionEditorial);
+          $("#editorial, #editorialEditar").append(optionEditorial);
         });
       },
       (error) => {
@@ -261,7 +271,7 @@ export class LibrosComponent {
         this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales); // Para objetos
         idiomas.forEach((idioma: Idioma) => {
           let optionIdioma = $("<option>").attr("value", idioma[0]).text(idioma[1]);
-          $("#idioma").append(optionIdioma);
+          $("#idioma, #idiomaEditar").append(optionIdioma);
         });
       },
       (error) => {
@@ -400,13 +410,12 @@ export class LibrosComponent {
   }
 
   abrirModalAgregarLibro() {
-    // $("#")
     $("#modal").modal("show");
   }
   
   calcularCostos() {
     if (this.descuento > this.precioBase) {
-      this.descuento = this.precioBase;
+      this.descuento = this.precioBase - 1;;
     }
     this.iva = (this.precioBase - this.descuento) * 0.16;
     this.total = this.precioBase - this.descuento + this.iva;
@@ -533,9 +542,157 @@ export class LibrosComponent {
     formData.append('idEditorial', idEditorial.toString());
     formData.append('fechaPublicacion', fecha.toString());
     formData.append('idAutor', idAutor.toString());
+    formData.append('ISBN', this.ISBN.toString());
 
     formData.append('token', JSON.stringify(token)); // Serializa el token);
 
     return formData;
+  }
+
+  abrirModalEditarLibro() {
+    let seleccionado = $('input[name="opcionLibro"]:checked');
+    if (seleccionado.length <= 0) {
+      this.SweetAlertService.mensajeError("Seleccione un Libro para Editar");
+      return;
+    }
+    let datosGenerales = this.prepararDatosGeneralesObtenerLibroEdicion();
+    if (!datosGenerales) {
+      return;
+    }
+
+    this.SweetAlertService.cargando();
+    this.ApiService.post('ADMObenerLibroEdicion/', datosGenerales).subscribe(
+      (response : any) => {
+        if (response == false) {
+          this.SweetAlertService.close();
+          this.SweetAlertService.mensajeError("Fallo al Deshabilitar el Libro");
+          setTimeout(() => {
+            this.obtenerLibros();
+          }, 3000);
+          return;
+        } 
+        this.AlmacenamientoLocalService.actualizarToken(datosGenerales.datosGenerales.token);
+        this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales.token); // Para objetos
+        this.SweetAlertService.close();
+        this.tituloEditar = response[0];
+        this.paginasEditar = response[7];
+        this.ISBNEditar = response[8];
+        this.sinopsisEditar = response[6];
+        this.precioBaseEditar = response[1];
+        this.descuentoEditar = response[2];
+
+        $("#autorEditar").val(response[9]);
+        $("#generoEditar").val(response[12]);
+        $("#editorialEditar").val(response[10]);
+        $("#idiomaEditar").val(response[11]);
+        $("#fechaPublicacionEditar").val(response[4].split("-").reverse().join("/"));
+
+        $("#portadaVieja").attr("src", "http://127.0.0.1:8000/media/" + response[5]).css("max-height", "150px");
+        this.calcularCostosEditar();
+
+        $("#modalEditar").modal("show");
+      },
+      (error) => {
+        this.SweetAlertService.close();
+        this.SweetAlertService.mensajeError("Fallo de Conexion al Servidor");
+        setTimeout(() => {
+          this.obtenerLibros();
+        }, 3000);
+      }
+    );
+  }
+
+  prepararDatosGeneralesObtenerLibroEdicion() {
+    let idLibroEdicion = $('input[name="opcionLibro"]:checked').attr('idLibro');
+
+    let token = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
+    token = this.AlmacenamientoLocalService.actualizarToken(token);
+
+    let datosGeneralesAntesEncapsular = {
+      idLibro : idLibroEdicion,
+    };
+
+    let datosGenerales = {
+      datosGenerales : datosGeneralesAntesEncapsular,
+      token : token,
+    }
+
+    let datosGeneralesEncapsulados : datosGeneralesEncapsulado = {
+      datosGenerales : datosGenerales
+    };
+
+    return datosGeneralesEncapsulados;
+  }
+
+  calcularCostosEditar() {
+    if (this.descuentoEditar > this.precioBaseEditar) {
+      this.descuentoEditar = this.precioBaseEditar - 1;
+    }
+    this.ivaEditar = (this.precioBaseEditar - this.descuentoEditar) * 0.16;
+    this.totalEditar = this.precioBaseEditar - this.descuentoEditar + this.ivaEditar;
+  }
+
+  seleccionarImagenEditar(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.portadaEditar = input.files[0];
+    }
+  }
+
+  abrirModalConfirmarEditar() {
+    if (!this.comprobarDatosEditar()) {
+      return;
+    }
+    Swal.fire({
+      title: "Estas Seguro?",
+      text: "Confirmar Agregar Libro",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Agregar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.agregarLibro();
+      }
+    });
+  }
+
+  comprobarDatosEditar() {
+    let fechaPublicacion = $("#fechaPublicacionEditar").val();
+    if (this.tituloEditar == "") {
+      this.SweetAlertService.mensajeError("Titulo Vacio");
+      return false;
+    } else if (this.paginasEditar <= 0 || this.paginasEditar == "") {
+      this.SweetAlertService.mensajeError("Paginas Erroneas");
+      return false;
+    } else if (fechaPublicacion == "") {
+      this.SweetAlertService.mensajeError("Fecha de Publicacion Erronea");
+      return false;
+    } else if (this.sinopsisEditar == "") {
+      this.SweetAlertService.mensajeError("Falta Sinopsis");
+      return false;
+    } else if (this.precioBaseEditar <= 0 || this.paginasEditar == "") {
+      this.SweetAlertService.mensajeError("Precio Base Incorrecto");
+      return false;
+    } else if (this.descuentoEditar <= -1 || this.descuentoEditar > this.precioBaseEditar) {
+      this.SweetAlertService.mensajeError("Descuento Incorrecto");
+      return false;
+    } else if (this.ivaEditar >= this.precioBaseEditar) {
+      this.SweetAlertService.mensajeError("Fallo de Calculo de Iva, Reiniciando Pagina");
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } else if (this.totalEditar <= -1) {
+      this.SweetAlertService.mensajeError("Fallo de Calculo de Total, Reiniciando Pagina");
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } else if (this.portadaEditar == "") {
+      this.SweetAlertService.mensajeError("Imagen no Seleccionada");
+      return false;
+    }
+
+    return true;
   }
 }

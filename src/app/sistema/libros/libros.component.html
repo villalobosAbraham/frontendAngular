@@ -8,6 +8,7 @@
             <h2>Catalogo de Libros</h2>
             <div class="row" class="botons">
                 <button class="btn btn-primary" (click)="abrirModalAgregarLibro()">Agregar Libro <i class="fa fa-plus"></i></button>
+                <button class="btn btn-primary" (click)="abrirModalEditarLibro()">Editar Libro <i class="fa fa-plus"></i></button>
                 <button class="btn btn-primary" (click)="confirmarDesHabilitarLibro()">Inhabilitar Libro <i class="fa fa-ban"></i></button>
                 <button class="btn btn-primary" (click)="confirmarHabilitarLibro()">Habilitar Libro <i class="fa fa-check"></i></button>
             </div>
@@ -90,6 +91,14 @@
                 </div>
             
                 <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">ISBN: </label>
+                        <input type="number" class="form-control" min="1" [(ngModel)]="ISBNEditar">
+                    </div>
+                </div>
+
+            
+                <div class="row">
                     <label class="control-label">Sinopsis Libro: </label>
                     <textarea id="sinopsis" class="textarea-control" [(ngModel)]="sinopsis"></textarea>
                 </div>
@@ -123,6 +132,112 @@
             </div>
             <div class="modal-footer">
                 <button id="agregarLibro" class="btn btn-primary" (click)="abrirModalConfirmarAgregar()"><i class="fa fa-floppy-o"></i> Guardar Informacion</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-lg" id="modalEditar" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Editar Libro</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <label class="control-label">Titulo del Libro: </label>
+                    <input type="text" class="form-control" placeholder="Titulo" [(ngModel)]="tituloEditar">
+                </div>
+            
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="control-label">Autor: </label>
+                        <select id="autorEditar" class="form-control">
+                            <option value="-1">Seleccionar Autor</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Género: </label>
+                        <select id="generoEditar" class="form-control">
+                            <option value="-1">Seleccionar Género</option>
+                        </select>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Editorial: </label>
+                        <select id="editorialEditar" class="form-control">
+                            <option value="-1">Seleccionar Editorial</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Idioma: </label>
+                        <select id="idiomaEditar" class="form-control">
+                            <option value="-1">Seleccionar Idioma</option>
+                        </select>
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Paginas </label>
+                        <input type="number" class="form-control" min="1" [(ngModel)]="paginasEditar">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Fecha Publicacion: </label>
+                        <input type="text" id="fechaPublicacionEditar" class="form-control" placeholder="12/07/2005">
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">ISBN: </label>
+                        <input type="number" class="form-control" min="1" [(ngModel)]="ISBNEditar">
+                    </div>
+                </div>
+            
+                <div class="row">
+                    <label class="control-label">Sinopsis Libro: </label>
+                    <textarea class="textarea-control" [(ngModel)]="sinopsisEditar"></textarea>
+                </div>
+                  
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Precio Base: </label>
+                        <input type="number" class="form-control" (change)="calcularCostosEditar()" placeholder="Precio Base" value="0" [(ngModel)]="precioBaseEditar">  
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Descuento: </label>
+                        <input type="number" class="form-control" (change)="calcularCostosEditar()" placeholder="Descuento" value="0" [(ngModel)]="descuentoEditar">  
+                    </div>
+                </div>
+                  
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Iva: </label>
+                        <label class="control-label">${{ivaEditar | number:'1.2-2'}}</label>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Total: </label>
+                        <label class="control-label">${{totalEditar | number:'1.2-2'}}</label>  
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>PORTADA ACTUAL</h3>
+                        <img id="portadaVieja" src="" alt="">
+                    </div>
+                    <div class="col-md-6">
+                        <h3 style="width: 100%;">CARGAR PORTADA NUEVA</h3>
+                        <input type="file" id="imageInputEditar" (change)="seleccionarImagenEditar($event)" name="image" accept="image/*">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button  class="btn btn-primary" (click)="abrirModalConfirmarEditar()"><i class="fa fa-floppy-o"></i> Editar Libro</button>
             </div>
         </div>
     </div>

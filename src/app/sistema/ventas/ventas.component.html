@@ -1,1 +1,56 @@
-<p>ventas works!</p>
+
+<div style="min-height: 100vh; background-color: rgb(207, 207, 207);">
+    <div style="display: flex;">
+        <div style="width: 15%;">
+            <app-barra-sistema></app-barra-sistema>
+        </div>
+        <div style="width: 85%; text-align: center;" class="panel-body">
+            <h2>Registro Historico de Ventas</h2>
+            <div style="width: 95%; margin-top: 1%;">
+                <div class="row">
+                    <table class="table table-bordered table-striped mb-none" id="tablaVentas">
+                        <thead>
+                            <tr>
+                                <th>Id Venta</th>
+                                <th>Id Pago Paypal</th>
+                                <th>Fecha</th>
+                                <th>Usuario Compro</th>
+                                <th>Total de Pago</th>
+                                <th>Estado</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modal-lg" id="modalDetalles" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Detalles de Venta</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="margin: 10px 15px; overflow-x: none;">
+                    <table class="table table-bordered table-striped mb-none" id="tablaDetalles">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Libro</th>
+                                <th>Cantidad</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
