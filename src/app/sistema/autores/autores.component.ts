@@ -41,37 +41,37 @@ export class AutoresComponent {
   apellidoMaterno : string = "";
 
   ngOnInit() {
-      let almacenamientoLocal = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
-      if (!almacenamientoLocal) {
-        this.Router.navigate(['login']);
-        return;
-      }
-      almacenamientoLocal = this.AlmacenamientoLocalService.actualizarToken(almacenamientoLocal);
-      if (!almacenamientoLocal) {
-        this.Router.navigate(['login']);
-        return;
-      }
-  
-      this.tabla = $('#tablaAutores').DataTable({
-        "pageLength": 10,
-        "lengthChange": true,
-        "destroy": true,
-        "autoWidth": true,
-        "scrollY": "",
-      });
-      $('#fechaNacimiento').datepicker({
-        dateFormat: 'dd/mm/yy',
-        changeYear: true, // Habilita el cambio de año
-        changeMonth: true, // Opcional: permite cambiar de mes
-        yearRange: "c-500:c-10",
-        autoclose: true,
-        todayHighlight: true,
-        locale: "es"
-      });
-      this.obtenerAutores();
-      this.obtenerNacionalidades();
-      
+    let almacenamientoLocal = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
+    if (!almacenamientoLocal) {
+      this.Router.navigate(['login']);
+      return;
     }
+    almacenamientoLocal = this.AlmacenamientoLocalService.actualizarToken(almacenamientoLocal);
+    if (!almacenamientoLocal) {
+      this.Router.navigate(['login']);
+      return;
+    }
+
+    this.tabla = $('#tablaAutores').DataTable({
+      "pageLength": 10,
+      "lengthChange": true,
+      "destroy": true,
+      "autoWidth": true,
+      "scrollY": "",
+    });
+    $('#fechaNacimiento').datepicker({
+      dateFormat: 'dd/mm/yy',
+      changeYear: true, // Habilita el cambio de año
+      changeMonth: true, // Opcional: permite cambiar de mes
+      yearRange: "c-500:c-10",
+      autoclose: true,
+      todayHighlight: true,
+      locale: "es"
+    });
+    this.obtenerAutores();
+    this.obtenerNacionalidades();
+    
+  }
 
     obtenerAutores() {
       let datosGenerales = this.prepararDatosGeneralesSoloToken();

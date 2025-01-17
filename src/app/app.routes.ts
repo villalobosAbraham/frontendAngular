@@ -12,6 +12,7 @@ export const routes: Routes = [
     { path: 'autores', loadComponent: () => import('./sistema/autores/autores.component').then(m => m.AutoresComponent)},
     { path: 'inventario', loadComponent: () => import('./sistema/inventario/inventario.component').then(m => m.InventarioComponent)},
     { path: 'ventas', loadComponent: () => import('./sistema/ventas/ventas.component').then(m => m.VentasComponent)},
+    { path: 'editoriales', loadComponent: () => import('./sistema/editoriales/editoriales.component').then(m => m.EditorialesComponent)},
     { path: '**', redirectTo: 'login', pathMatch: 'full' },
     
 ];
