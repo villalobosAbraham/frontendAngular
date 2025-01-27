@@ -13,6 +13,8 @@ export const routes: Routes = [
     { path: 'inventario', loadComponent: () => import('./sistema/inventario/inventario.component').then(m => m.InventarioComponent)},
     { path: 'ventas', loadComponent: () => import('./sistema/ventas/ventas.component').then(m => m.VentasComponent)},
     { path: 'editoriales', loadComponent: () => import('./sistema/editoriales/editoriales.component').then(m => m.EditorialesComponent)},
+    { path: 'generos', loadComponent: () => import('./sistema/generos/generos.component').then(m => m.GenerosComponent)},
+    { path: 'empleados', loadComponent: () => import('./sistema/empleados/empleados.component').then(m => m.EmpleadosComponent)},
     { path: '**', redirectTo: 'login', pathMatch: 'full' },
     
 ];
