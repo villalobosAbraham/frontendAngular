@@ -20,6 +20,12 @@ export class EmpleadosComponent {
   constructor(private Router : Router, private AlmacenamientoLocalService : AlmacenamientoLocalService, private SweetAlertService : SweetAlertService, private ApiService : ApiService) {}
   tabla : any = "";
   nombre : string = "";
+  apellidoPaterno : string = "";
+  apellidoMaterno : string = "";
+  telefono : string = "";
+  fechaNacimiento : string = "";
+  correoEmpleado : string = "";
+  contraEmpleado : string = "";
 
   ngOnInit() {
     let almacenamientoLocal = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
@@ -59,6 +65,8 @@ export class EmpleadosComponent {
       locale: "es"
     });
     this.obtenerEmpleados();
+    this.contraEmpleado = "";
+    $("#contraseña").val("");
   }
 
   obtenerEmpleados() {
@@ -131,5 +139,91 @@ export class EmpleadosComponent {
 
   prepararFecha(fecha : any) {
     return fecha.split("-").reverse().join("/");
+  }
+
+  abrirModalAgregarEmpleado() {
+    $("#modal").modal("show");
+  }
+
+  agregarEmpleado() {
+    let datosGenerales = this.prepararDatosGeneralesAgregarEmpleado();
+    if (!datosGenerales) {
+      return;
+    }
+
+    this.SweetAlertService.cargando();
+    this.ApiService.post('ADMRegistrarEmpleado/', datosGenerales).subscribe(
+      (response : any) => {
+        if (response == false) {
+          this.SweetAlertService.close();
+          this.SweetAlertService.mensajeError("Fallo al Registrar el Usuario");
+          return;
+        } 
+        this.AlmacenamientoLocalService.actualizarToken(datosGenerales.datosGenerales.token);
+        this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales.token); // Para objetos
+        this.SweetAlertService.close();
+        this.SweetAlertService.mensajeError("Usuario Registrado Correctamente");
+      },
+      (error) => {
+        this.SweetAlertService.close();
+      }
+    );
+  }
+
+  prepararDatosGeneralesAgregarEmpleado() {
+    let token = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
+    token = this.AlmacenamientoLocalService.actualizarToken(token);
+
+
+    let regexNombreApellido = /^[A-Za-z]{3,}(?:\s[A-Za-z]{3,})?$/;
+    let regexTelefono = /^\d{10}$/;
+    let regexFecha = /^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+    let regexCorreo = /^(?=.*[A-Za-z])[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    let regexContraseña = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/;
+
+    let fechaModificado = this.fechaNacimiento.split("/").reverse().join("-");
+    if (!regexNombreApellido.test(this.nombre)) {
+      this.SweetAlertService.mensajeError("Nombre Invalido");
+      return false;
+    } else if (!regexNombreApellido.test(this.apellidoPaterno)) {
+      this.SweetAlertService.mensajeError("Apellido Paterno Invalido");
+      return false;
+    } else if (!regexNombreApellido.test(this.apellidoMaterno)) {
+      this.SweetAlertService.mensajeError("Apellido Materno Invalido");
+      return false;
+    } else if (!regexTelefono.test(this.telefono)) {
+      this.SweetAlertService.mensajeError("Numero Telefonico Invalido");
+      return false;
+    } else if (!regexFecha.test(fechaModificado)) {
+      this.SweetAlertService.mensajeError("Fecha Invalida");
+      return false;
+    } else if (!regexCorreo.test(this.correoEmpleado)) {
+      this.SweetAlertService.mensajeError("Correo Invalido");
+      return false;
+    } else if (!regexContraseña.test(this.contraEmpleado)) {
+      this.SweetAlertService.mensajeError("Contraseña Invalida");
+      return false;
+    }
+
+    let datosGeneralesAntesEncapsular = {
+      nombre : this.nombre,
+      apellidoPaterno : this.apellidoPaterno,
+      apellidoMaterno : this.apellidoMaterno,
+      telefono : this.telefono,
+      fechaNacimiento : fechaModificado,
+      email : this.correoEmpleado,
+      contraseña : this.contraEmpleado,
+    };
+
+    let datosGenerales = {
+      datosGenerales : datosGeneralesAntesEncapsular,
+      token : token,
+    }
+
+    let datosGeneralesEncapsulados : datosGeneralesEncapsulado = {
+      datosGenerales : datosGenerales
+    };
+
+    return datosGeneralesEncapsulados;
   }
 }

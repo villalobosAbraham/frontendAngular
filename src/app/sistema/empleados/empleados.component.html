@@ -7,8 +7,8 @@
         <div style="width: 85%; text-align: center;" class="panel-body">
             <h2>Empleados  </h2>
             <div class="row" class="botons">
-                <!-- <button class="btn btn-primary" (click)="abrirModalAgregarGenero()">Agregar Genero <i class="fa fa-plus"></i></button>
-                <button class="btn btn-primary" (click)="desHabilitarGenero()">Inhabilitar Genero <i class="fa fa-ban"></i></button>
+                <button class="btn btn-primary" (click)="abrirModalAgregarEmpleado()">Agregar Empleado <i class="fa fa-plus"></i></button>
+                <!-- <button class="btn btn-primary" (click)="desHabilitarGenero()">Inhabilitar Genero <i class="fa fa-ban"></i></button>
                 <button class="btn btn-primary" (click)="habilitarGenero()">Habilitar Genero <i class="fa fa-check"></i></button> -->
             </div>
             <div style="width: 95%; margin-top: 1%;">
@@ -40,15 +40,47 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label">Nombre(s): </label>
+                        <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="nombre">
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">
-                        <label class="control-label">Nombre: </label>
-                        <!-- <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="nombre"> -->
+                        <label class="control-label">Apellido Paterno: </label>
+                        <input type="text" class="form-control" placeholder="Apellido Paterno" [(ngModel)]="apellidoPaterno">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Apellido Materno: </label>
+                        <input type="text" class="form-control" placeholder="Apellido Materno" [(ngModel)]="apellidoMaterno">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="control-label">Telefono: </label>
+                        <input type="number" class="form-control" id="inputTelefono" placeholder="6681939669" [(ngModel)]="telefono">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="control-label">Fecha Nacimiento: </label>
+                        <input type="text" class="form-control" id="inputFechaNacimiento" placeholder="02/07/2003" [(ngModel)]="fechaNacimiento">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label">Correo Electronico: </label>
+                        <input type="email" class="form-control" id="correo" placeholder="name@example.com" [(ngModel)]="correoEmpleado">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="control-label">Contraseña: </label>
+                        <input type="text" class="form-control" id="contraseña" placeholder="Contraseña" [(ngModel)]="contraEmpleado">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <!-- <button class="btn btn-primary" (click)="agregarGenero()"><i class="fa fa-plus"></i> Guardar Informacion</button> -->
+                <button class="btn btn-primary" (click)="agregarEmpleado()"><i class="fa fa-plus"></i> Guardar Empleado</button>
             </div>
         </div>
     </div>
