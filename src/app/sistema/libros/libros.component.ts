@@ -96,7 +96,7 @@ export class LibrosComponent {
     }
 
     this.tabla = $('#tablaLibros').DataTable({
-      "pageLength": 5,
+      "pageLength": 10,
       "lengthChange": true,
       "destroy": true,
       "autoWidth": true,

@@ -226,4 +226,96 @@ export class EmpleadosComponent {
 
     return datosGeneralesEncapsulados;
   }
+
+  desHabilitarEmpleado() {
+    let datosGenerales = this.prepararDatosGeneralesHabilitarDeshabilitarEmpleado();
+    if (!datosGenerales) {
+      return;
+    }
+
+    this.SweetAlertService.cargando();
+    this.ApiService.post('ADMDeshabilitarEmpleado/', datosGenerales).subscribe(
+      (response : any) => {
+        if (response == false) {
+          this.SweetAlertService.close();
+          this.SweetAlertService.mensajeError("Fallo al Deshabilitar al Empleado");
+          setTimeout(() => {
+            this.obtenerEmpleados();
+          }, 3000);
+        } 
+        this.AlmacenamientoLocalService.actualizarToken(datosGenerales.datosGenerales.token);
+        this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales.token); // Para objetos
+        this.SweetAlertService.close();
+        this.SweetAlertService.mensajeFunciono("Empleado Deshabilitado con Exito");
+        setTimeout(() => {
+          this.obtenerEmpleados();
+        }, 3000);
+      },
+      (error) => {
+        this.SweetAlertService.close();
+        this.SweetAlertService.mensajeError("Fallo de Conexion al Servidor");
+        setTimeout(() => {
+          this.obtenerEmpleados();
+        }, 3000);
+      }
+    );
+  }
+
+  prepararDatosGeneralesHabilitarDeshabilitarEmpleado() {
+    let seleccionado = $('input[name="opcionEmpleado"]:checked');
+    if (seleccionado.length <= 0) {
+      return false;
+    }
+    let idEmpleado = $('input[name="opcionEmpleado"]:checked').attr('idEmpleado');
+    let token = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
+    token = this.AlmacenamientoLocalService.actualizarToken(token);
+    let datosGeneralesAntesEncapsular = {
+      idEmpleado : idEmpleado,
+    };
+
+    let datosGenerales = {
+      datosGenerales : datosGeneralesAntesEncapsular,
+      token : token,
+    }
+
+    let datosGeneralesEncapsulados : datosGeneralesEncapsulado = {
+      datosGenerales : datosGenerales
+    };
+
+    return datosGeneralesEncapsulados;
+  }
+
+  habilitarEmpleado() {
+    let datosGenerales = this.prepararDatosGeneralesHabilitarDeshabilitarEmpleado();
+    if (!datosGenerales) {
+      return;
+    }
+
+    this.SweetAlertService.cargando();
+    this.ApiService.post('ADMHabilitarEmpleado/', datosGenerales).subscribe(
+      (response : any) => {
+        if (response == false) {
+          this.SweetAlertService.close();
+          this.SweetAlertService.mensajeError("Fallo al Habilitar al Empleado");
+          setTimeout(() => {
+            this.obtenerEmpleados();
+          }, 3000);
+        } 
+        this.AlmacenamientoLocalService.actualizarToken(datosGenerales.datosGenerales.token);
+        this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales.token); // Para objetos
+        this.SweetAlertService.close();
+        this.SweetAlertService.mensajeFunciono("Empleado Habilitado con Exito");
+        setTimeout(() => {
+          this.obtenerEmpleados();
+        }, 3000);
+      },
+      (error) => {
+        this.SweetAlertService.close();
+        this.SweetAlertService.mensajeError("Fallo de Conexion al Servidor");
+        setTimeout(() => {
+          this.obtenerEmpleados();
+        }, 3000);
+      }
+    );
+  }
 }
