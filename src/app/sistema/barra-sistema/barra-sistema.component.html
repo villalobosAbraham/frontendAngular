@@ -1,64 +1,54 @@
 <div id="todo" class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary" style="width: 200px;">
-    <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-      <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-      <span class="fs-4">Admin. Libreria</span>
-    </a>
-    <hr>
-    <ul class="nav nav-pills flex-column mb-auto">
-      <li class="nav-item">
-        <a href="sistema" class="nav-link link-body-emphasis" aria-current="page">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"/></svg>
-          Inicio <i class="fa fa-home" aria-hidden="true"></i>
-        </a>
-      </li>
-      <li>
-        <a href="libros" class="nav-link link-body-emphasis">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
-          libros <i class="fa fa-book" aria-hidden="true"></i>
-        </a>
-      </li>
-      <li>
-        <a href="autores" class="nav-link link-body-emphasis">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"/></svg>
-          Autores <i class="fa fa-pencil" aria-hidden="true"></i>
-        </a>
-      </li>
-      <li>
-        <a href="inventario" class="nav-link link-body-emphasis">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
-          Inventario <i class="fa fa-archive" aria-hidden="true"></i>
-        </a>
-      </li>
-      <li>
-        <a href="ventas" class="nav-link link-body-emphasis">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-          Ventas <i class="fa fa-money" aria-hidden="true"></i>
-        </a>
-      </li>
-      <li>
-        <a href="editoriales" class="nav-link link-body-emphasis">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-          Editoriales <i class="fa fa-industry" aria-hidden="true"></i>
-        </a>
-      </li>
-      <li>
-        <a href="generos" class="nav-link link-body-emphasis">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-          Generos <i class="fa fa-magic" aria-hidden="true"></i>
-        </a>
-      </li>
-      <li>
-        <a href="empleados" class="nav-link link-body-emphasis">
-          <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-          Empleados <i class="fa fa-users" aria-hidden="true"></i>
-        </a>
-      </li>
-    </ul>
-    <hr>
-    <div class="dropdown">
-        <a (click)="cerrarSesion()" class="nav-link link-body-emphasis">
-            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
-            <strong>Salir </strong><i class="fa fa-sign-out" aria-hidden="true"></i>
-        </a>
-    </div>
+  <a class="d-flex justify-content-end align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+    <span class="fs-4">Admin. Libreria</span>
+  </a>
+  <hr>
+  <ul class="nav nav-pills flex-column mb-auto text-end">
+    <li class="nav-item">
+      <a href="sistema" class="nav-link link-body-emphasis d-flex justify-content-between align-items-center">
+        Inicio <i class="fa fa-home ms-auto" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li>
+      <a href="libros" class="nav-link link-body-emphasis d-flex justify-content-between align-items-center">
+        Libros <i class="fa fa-book ms-auto" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li>
+      <a href="autores" class="nav-link link-body-emphasis d-flex justify-content-between align-items-center">
+        Autores <i class="fa fa-pencil ms-auto" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li>
+      <a href="inventario" class="nav-link link-body-emphasis d-flex justify-content-between align-items-center">
+        Inventario <i class="fa fa-archive ms-auto" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li>
+      <a href="ventas" class="nav-link link-body-emphasis d-flex justify-content-between align-items-center">
+        Ventas <i class="fa fa-money ms-auto" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li>
+      <a href="editoriales" class="nav-link link-body-emphasis d-flex justify-content-between align-items-center">
+        Editoriales <i class="fa fa-industry ms-auto" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li>
+      <a href="generos" class="nav-link link-body-emphasis d-flex justify-content-between align-items-center">
+        Géneros <i class="fa fa-magic ms-auto" aria-hidden="true"></i>
+      </a>
+    </li>
+    <li>
+      <a href="empleados" class="nav-link link-body-emphasis d-flex justify-content-between align-items-center">
+        Empleados <i class="fa fa-users ms-auto" aria-hidden="true"></i>
+      </a>
+    </li>
+  </ul>
+  <hr>
+  <div class="dropdown">
+      <a (click)="cerrarSesion()" class="nav-link link-body-emphasis d-flex justify-content-between align-items-center">
+          <strong>Salir</strong> <i class="fa fa-sign-out ms-auto" aria-hidden="true"></i>
+      </a>
   </div>
+</div>

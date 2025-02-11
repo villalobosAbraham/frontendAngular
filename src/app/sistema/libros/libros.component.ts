@@ -12,6 +12,7 @@ import { windowWhen } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 declare var $: any;
+import 'select2';
 
 interface Libro {
   0 : number,
@@ -108,12 +109,36 @@ export class LibrosComponent {
       todayHighlight: true,
       locale: "es"
     });
+    $("#autores").select2();
 
+
+    this.obtenerAutores();
     this.obtenerLibros();
     this.obtenerAutoresActivos();
     this.obtenerGenerosActivos();
     this.obtenerEditoralesActivas();
     this.obtenerIdiomasActivos();
+  }
+
+  obtenerAutores() {
+    let datosGenerales = this.prepararDatosGeneralesSoloToken();
+
+    this.ApiService.post('ADMObtenerAutores/', datosGenerales).subscribe(
+      (response : any) => {
+        if (typeof response === 'boolean') {
+          return;
+        } 
+        let autores : Autor[] = response;
+        this.AlmacenamientoLocalService.actualizarToken(datosGenerales.datosGenerales);
+        this.AlmacenamientoLocalService.guardarAlmacenamientoLocal('clave', datosGenerales.datosGenerales); // Para objetos
+        autores.forEach((autor: Autor) => {
+          let optionAutor = $("<option>").attr("value", autor[0]).text(autor[1] + " " + autor[2] + " " + autor[3]);
+          $("#autores").append(optionAutor);
+        });
+      },
+      (error) => {
+      }
+    );
   }
 
   obtenerLibros() {
@@ -643,6 +668,7 @@ export class LibrosComponent {
     if (!this.comprobarDatosEditar()) {
       return;
     }
+
     Swal.fire({
       title: "Estas Seguro?",
       text: "Confirmar Agregar Libro",
@@ -653,7 +679,7 @@ export class LibrosComponent {
       confirmButtonText: "Agregar"
     }).then((result) => {
       if (result.isConfirmed) {
-        this.agregarLibro();
+        this.editarLibro();
       }
     });
   }
@@ -694,5 +720,71 @@ export class LibrosComponent {
     }
 
     return true;
+  }
+
+  editarLibro() {
+    let datosGenerales = this.prepararDatosGeneralesEditarLibro();
+
+    this.ApiService.post('ADMEditarLibroCatalogo/', datosGenerales).subscribe(
+      (response : any) => {
+        if (response == false) {
+          this.SweetAlertService.close();
+          this.SweetAlertService.mensajeError("Fallo al Editar el Libro");
+          setTimeout(() => {
+            $("#modalEditar").modal("hide");
+            this.obtenerLibros();
+          }, 3000);
+          return;
+        } 
+        this.SweetAlertService.close();
+        this.SweetAlertService.mensajeFunciono("Libro Editado con Exito");
+        setTimeout(() => {
+          $("#modalEditar").modal("hide");
+          this.obtenerLibros();
+        }, 3000);
+      },
+      (error) => {
+        this.SweetAlertService.close();
+        this.SweetAlertService.mensajeError("Fallo de Conexion al Servidor");
+        setTimeout(() => {
+          $("#modalEditar").modal("hide");
+          this.obtenerLibros();
+        }, 3000);
+      }
+    );
+  }
+
+  prepararDatosGeneralesEditarLibro() {
+    let token = this.AlmacenamientoLocalService.obtenerAlmacenamientoLocal("clave");
+    token = this.AlmacenamientoLocalService.actualizarToken(token);
+
+    let idLibro = $('input[name="opcionLibro"]:checked').attr('idLibro');
+    let idGenero = $("#generoEditar").val();
+    let fecha = $("#fechaPublicacionEditar").val().split("/").reverse().join("-");
+    let idIdioma = $("#idiomaEditar").val();
+    let idAutor = $("#autorEditar").val();
+    let idEditorial = $("#editorialEditar").val();
+
+    const formData = new FormData();
+    formData.append('idLibro', idLibro);
+    formData.append('portada', this.portadaEditar);
+
+    // Agrega los demás datos al FormData
+    formData.append('titulo', this.tituloEditar.toString());
+    formData.append('precio', this.precioBaseEditar.toString());
+    formData.append('descuento', this.descuentoEditar.toString());
+    formData.append('iva', this.ivaEditar.toString());
+    formData.append('idGenero', idGenero.toString());
+    formData.append('sinopsis', this.sinopsisEditar);
+    formData.append('paginas', this.paginasEditar.toString());
+    formData.append('idIdioma', idIdioma.toString());
+    formData.append('idEditorial', idEditorial.toString());
+    formData.append('fechaPublicacion', fecha.toString());
+    formData.append('idAutor', idAutor.toString());
+    formData.append('ISBN', this.ISBNEditar.toString());
+
+    formData.append('token', JSON.stringify(token)); // Serializa el token);
+
+    return formData;
   }
 }

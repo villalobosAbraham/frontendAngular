@@ -6,7 +6,50 @@
         </div>
         <div style="width: 85%; text-align: center;" class="panel-body">
             <h2>Catalogo de Libros</h2>
-            <div class="row" class="botons">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="col-md-3 text-center">
+                        <label style="margin-top: 5px;">Autor:</label>
+                    </div>
+                    <div class="col-md-9 form-group">
+                        <select class="form-control" id="autores">
+                            <option value="-1">Todos</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="col-md-3 text-center">
+                        <label style="margin-top: 5px;">Genero:</label>
+                    </div>
+                    <div class="col-md-9 form-group">
+                        <select class="form-control" id="generos">
+                            <option value="-1">Todos</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="col-md-3 text-center">
+                        <label style="margin-top: 5px;">Idioma:</label>
+                    </div>
+                    <div class="col-md-9 form-group">
+                        <select class="form-control" id="idiomas">
+                            <option value="-1">Todos</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="col-md-3 text-center">
+                        <label style="margin-top: 5px;">Editorial:</label>
+                    </div>
+                    <div class="col-md-9 form-group">
+                        <select class="form-control" id="Editorial">
+                            <option value="-1">Todos</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" class="botons" style="margin-top: 5px;">
                 <button class="btn btn-primary" (click)="abrirModalAgregarLibro()">Agregar Libro <i class="fa fa-plus"></i></button>
                 <button class="btn btn-primary" (click)="abrirModalEditarLibro()">Editar Libro <i class="fa fa-plus"></i></button>
                 <button class="btn btn-primary" (click)="confirmarDesHabilitarLibro()">Inhabilitar Libro <i class="fa fa-ban"></i></button>
